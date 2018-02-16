@@ -16,7 +16,17 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tickerCounter = TickerCounter(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        let tickerCounter = TickerCounter(frame: CGRect(x: 0, y: 100, width: view.frame.width, height: 65))
+        tickerCounter.value = 270577
+        self.tickerCounter = tickerCounter
+        
+        view.addSubview(tickerCounter)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tickerCounter?.startAnimation()
     }
 
 }

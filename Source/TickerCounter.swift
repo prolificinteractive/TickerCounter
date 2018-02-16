@@ -13,7 +13,7 @@ public final class TickerCounter: UIView {
     
     // MARK: Dependencies
     
-    var value: Int?
+    public var value: Int?
     
     // MARK: Properties
     
