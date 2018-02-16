@@ -6,20 +6,18 @@
 //  Copyright © 2018 Prolific Interactive. All rights reserved.
 //
 
+import TickerCounter
 import UIKit
 
 class ViewController: UIViewController {
+    
+    var tickerCounter: TickerCounter?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        tickerCounter = TickerCounter(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 
 }
 
