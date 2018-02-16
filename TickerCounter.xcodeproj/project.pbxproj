@@ -10,6 +10,7 @@
 		DC11C59A20377B6B00504CFB /* TickerCounter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC11C59020377B6B00504CFB /* TickerCounter.framework */; };
 		DC11C5AE20377C6E00504CFB /* TickerCounter.h in Headers */ = {isa = PBXBuildFile; fileRef = DC11C5AC20377C6E00504CFB /* TickerCounter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC11C5B320377C7800504CFB /* TickerCounterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11C5B120377C7700504CFB /* TickerCounterTests.swift */; };
+		DC11C5B520377CFC00504CFB /* TickerCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11C5B420377CFC00504CFB /* TickerCounter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		DC11C5AC20377C6E00504CFB /* TickerCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TickerCounter.h; sourceTree = "<group>"; };
 		DC11C5B020377C7700504CFB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC11C5B120377C7700504CFB /* TickerCounterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickerCounterTests.swift; sourceTree = "<group>"; };
+		DC11C5B420377CFC00504CFB /* TickerCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerCounter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 		DC11C5AA20377C6E00504CFB /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				DC11C5B420377CFC00504CFB /* TickerCounter.swift */,
 				DC11C5AB20377C6E00504CFB /* Info.plist */,
 				DC11C5AC20377C6E00504CFB /* TickerCounter.h */,
 			);
@@ -203,6 +206,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC11C5B520377CFC00504CFB /* TickerCounter.swift in Sources */,
 				DC11C5B320377C7800504CFB /* TickerCounterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
