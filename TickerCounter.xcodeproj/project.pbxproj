@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		DC11C59A20377B6B00504CFB /* TickerCounter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC11C59020377B6B00504CFB /* TickerCounter.framework */; };
-		DC11C59F20377B6B00504CFB /* TickerCounterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11C59E20377B6B00504CFB /* TickerCounterTests.swift */; };
-		DC11C5A120377B6C00504CFB /* TickerCounter.h in Headers */ = {isa = PBXBuildFile; fileRef = DC11C59320377B6B00504CFB /* TickerCounter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC11C5AE20377C6E00504CFB /* TickerCounter.h in Headers */ = {isa = PBXBuildFile; fileRef = DC11C5AC20377C6E00504CFB /* TickerCounter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC11C5B320377C7800504CFB /* TickerCounterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11C5B120377C7700504CFB /* TickerCounterTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,11 +24,11 @@
 
 /* Begin PBXFileReference section */
 		DC11C59020377B6B00504CFB /* TickerCounter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TickerCounter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DC11C59320377B6B00504CFB /* TickerCounter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TickerCounter.h; sourceTree = "<group>"; };
-		DC11C59420377B6B00504CFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC11C59920377B6B00504CFB /* TickerCounterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TickerCounterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DC11C59E20377B6B00504CFB /* TickerCounterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerCounterTests.swift; sourceTree = "<group>"; };
-		DC11C5A020377B6C00504CFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DC11C5AB20377C6E00504CFB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DC11C5AC20377C6E00504CFB /* TickerCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TickerCounter.h; sourceTree = "<group>"; };
+		DC11C5B020377C7700504CFB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DC11C5B120377C7700504CFB /* TickerCounterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickerCounterTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,8 +53,8 @@
 		DC11C58620377B6B00504CFB = {
 			isa = PBXGroup;
 			children = (
-				DC11C59220377B6B00504CFB /* TickerCounter */,
-				DC11C59D20377B6B00504CFB /* TickerCounterTests */,
+				DC11C5AA20377C6E00504CFB /* Source */,
+				DC11C5AF20377C7700504CFB /* Tests */,
 				DC11C59120377B6B00504CFB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,22 +68,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DC11C59220377B6B00504CFB /* TickerCounter */ = {
+		DC11C5AA20377C6E00504CFB /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				DC11C59320377B6B00504CFB /* TickerCounter.h */,
-				DC11C59420377B6B00504CFB /* Info.plist */,
+				DC11C5AB20377C6E00504CFB /* Info.plist */,
+				DC11C5AC20377C6E00504CFB /* TickerCounter.h */,
 			);
-			path = TickerCounter;
+			path = Source;
 			sourceTree = "<group>";
 		};
-		DC11C59D20377B6B00504CFB /* TickerCounterTests */ = {
+		DC11C5AF20377C7700504CFB /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				DC11C59E20377B6B00504CFB /* TickerCounterTests.swift */,
-				DC11C5A020377B6C00504CFB /* Info.plist */,
+				DC11C5B020377C7700504CFB /* Info.plist */,
+				DC11C5B120377C7700504CFB /* TickerCounterTests.swift */,
 			);
-			path = TickerCounterTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -93,7 +93,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC11C5A120377B6C00504CFB /* TickerCounter.h in Headers */,
+				DC11C5AE20377C6E00504CFB /* TickerCounter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,7 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC11C59F20377B6B00504CFB /* TickerCounterTests.swift in Sources */,
+				DC11C5B320377C7800504CFB /* TickerCounterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,7 +340,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = TickerCounter/Info.plist;
+				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prolificinteractive.TickerCounter;
@@ -360,7 +360,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = TickerCounter/Info.plist;
+				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prolificinteractive.TickerCounter;
@@ -375,7 +375,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = TickerCounterTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prolificinteractive.TickerCounterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -388,7 +388,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = TickerCounterTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prolificinteractive.TickerCounterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
