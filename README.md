@@ -16,7 +16,7 @@ it, simply add the following line to your `Podfile`:
 
 
 ```ruby
-pod 'Ticker', :git => 'https://github.com/ProlificInteractive/TickerCounter.git', :tag => '0.1.0'
+pod 'TickerCounter', :git => 'https://github.com/ProlificInteractive/TickerCounter.git', :tag => '0.1.0'
 ```
 
 ## Usage
