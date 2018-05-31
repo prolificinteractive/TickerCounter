@@ -13,16 +13,29 @@ public final class TickerCounter: UIView {
     
     // MARK: Dependencies
     
+    /// The value for the ticker to display
     public var value: Int?
     
     // MARK: Properties
     
+    /// The color of the ticker numbers
     public var textColor: UIColor = UIColor.black
+    
+    /// The font of the ticker numbers
     public var font: UIFont? = UIFont(name: "HelveticaNeue-Bold", size: 42)
+    
+    /// The duration of the animation from start to completion
     public var duration: CFTimeInterval = 3
+    
+    /// The duration of the offset between the animation of each digit.
+    /// Set to 0 for all numbers to animate in sync
     public var durationOffset: CFTimeInterval = 0.3
+    
+    /// The number of numbers that will be scrolled through during the
+    /// duration of the animation.
     public var density: Int = 5
-    public var minLength: Int = 3
+    
+    /// If the ticker is ascending. Set to false for descending.
     public var isAscending: Bool = false
     
     private var scrollLayers: [CAScrollLayer] = []
@@ -41,11 +54,13 @@ public final class TickerCounter: UIView {
     
     // MARK: Public Methods
     
+    /// Start the animation of the ticker
     public func startAnimation() {
         prepareAnimations()
         createAnimations()
     }
     
+    /// Stop the animation of the ticker
     public func stopAnimation() {
         for scrollLayer in scrollLayers {
             scrollLayer.removeAnimation(forKey: "AnimatedCounterViewAnimation")
@@ -92,10 +107,6 @@ public final class TickerCounter: UIView {
         }
         
         numbersText = value.description.flatMap{ String($0) }
-        
-        // for(NSInteger i = 0; i < (NSInteger)self.minLength - (NSInteger)[textValue length]; ++i){
-        //      [numbersText addObject:@"0"];
-        // }
     }
     
     private func createScrollLayers() {
