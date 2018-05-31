@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "TickerCounter"
-  s.version          = "0.1.0"
+  s.version          = "0.2.0"
   s.summary          = "A counter with a ticker animation"
   s.description      = "A counter with a ticker animation." 
   s.homepage         = "https://github.com/ProlificInteractive/TickerCounter"
