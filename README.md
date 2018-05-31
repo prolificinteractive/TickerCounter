@@ -6,7 +6,7 @@ A counter with a ticker animation.
 
 ## Requirements
 
-* iOS 10.0+
+* iOS 9.0+
 
 ## Installation
 
