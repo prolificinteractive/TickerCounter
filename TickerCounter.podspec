@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.author           = { "Claire Lynch" => "claire@prolificinteractive.com" }
   s.source           = { :git => "https://github.com/ProlificInteractive/TickerCounter.git", :tag => s.version.to_s }
   
-  s.platforms     = { :ios => "10.0" }
+  s.platforms     = { :ios => "9.0" }
   s.requires_arc = true
 
   s.source_files     = 'Source/*.{swift}'
