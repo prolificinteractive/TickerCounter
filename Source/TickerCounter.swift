@@ -128,6 +128,13 @@ public final class TickerCounter: UIView {
     // MARK: - Private Methods
     
     private func prepareAnimations() {
+        resetLayersAndAnimations()
+        createNumbersText()
+        createScrollLayers()
+        createSubviewsForScrollLayers()
+    }
+    
+    private func resetLayersAndAnimations() {
         for layer in scrollLayers {
             layer.removeFromSuperlayer()
         }
@@ -135,9 +142,6 @@ public final class TickerCounter: UIView {
         numbersText.removeAll()
         scrollLayers.removeAll()
         scrollLabels.removeAll()
-        
-        createNumbersText()
-        createScrollLayers()
     }
     
     private func createPlaceholder() {
@@ -186,11 +190,11 @@ public final class TickerCounter: UIView {
     }
     
     private func createScrollLayers() {
-        // Creates scroll layers
+
         guard let font = font else { return }
         var characterSize = NSString(string: "0").size(withAttributes: [NSAttributedStringKey.font : font])
-        var xTracker = CGFloat()
         let stringWidth = characterSize.width * CGFloat(numbersText.count)
+        var xTracker = CGFloat()
         
         // Controls the x position of the frame of the scroll layer based on the alignment
         switch alignment {
@@ -218,40 +222,39 @@ public final class TickerCounter: UIView {
             scrollLayers.append(scrollLayer)
             layer.addSublayer(scrollLayer)
         }
-        
-        for i in 0..<numbersText.count {
-            createSubviewForScrollLayer(scrollLayers[i], withNumberText: numbersText[i])
-        }
     }
     
-    private func createSubviewForScrollLayer(_ layer: CALayer, withNumberText numberText: String) {
-        // This needs to create a label
-        
-        guard let number = Int(numberText) else {
-            return
+    private func createSubviewsForScrollLayers() {
+        guard numbersText.count == scrollLayers.count else { return }
+        for (index, number) in numbersText.enumerated() {
+            let scrollLayer = scrollLayers[index]
+            let scrollingNumbersText = numberStringGenerator(number: number)
+            var yPosition: CGFloat = 0
+            
+            // Creates one label for each number
+            for numberText in scrollingNumbersText {
+                let numberLabel = createLabel(numberText)
+                numberLabel.frame = CGRect(x: 0, y: yPosition, width: scrollLayer.frame.width, height: scrollLayer.frame.height)
+                scrollLayer.addSublayer(numberLabel.layer)
+                scrollLabels.append(numberLabel) // need to put in a var to keep in memory for some reason
+                yPosition = numberLabel.frame.maxY
+            }
         }
         
-        var scrollingNumbersText = [String]()
-        for i in 0...density {
-            let scrollNumber = (number + i) % 10
-            scrollingNumbersText.append(scrollNumber.description)
+    }
+    
+    private func numberStringGenerator(number: String) -> [String] {
+        guard let intNumber = Int(number) else { return [] }
+        var strings = [String]()
+        strings.append(number)
+        for i in 0...intNumber {
+            let scrollNumber = (intNumber + i) % 10
+            strings.append(scrollNumber.description)
         }
-        
-        scrollingNumbersText.append(numberText)
-        
         if isAscending {
-            scrollingNumbersText.reverse()
+            strings.reverse()
         }
-        
-        var height: CGFloat = 0
-        // Creates one label for each number
-        for numberText in scrollingNumbersText {
-            let scrollLabel = createLabel(numberText)
-            scrollLabel.frame = CGRect(x: 0, y: height, width: layer.frame.width, height: layer.frame.height)
-            layer.addSublayer(scrollLabel.layer)
-            scrollLabels.append(scrollLabel)
-            height = scrollLabel.frame.maxY
-        }
+        return strings
     }
     
     private func createLabel(_ text: String) -> UILabel {
