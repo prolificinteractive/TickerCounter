@@ -6,28 +6,77 @@
 //  Copyright © 2018 Prolific Interactive. All rights reserved.
 //
 
-import TickerCounter
 import UIKit
+import TickerCounter
 
 class ViewController: UIViewController {
     
-    var tickerCounter: TickerCounter?
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let tickerCounter = TickerCounter(frame: CGRect(x: 0, y: 100, width: view.frame.width, height: 65))
-        tickerCounter.value = 270577
-        self.tickerCounter = tickerCounter
-        
-        view.addSubview(tickerCounter)
+    //MARK: - Properties
+    
+    //MARK: IBOutlets
+    
+    @IBOutlet private weak var densityLabel: UILabel!
+    @IBOutlet private weak var durationLabel: UILabel!
+    @IBOutlet private weak var tickerCounter: TickerCounter!
+    
+    //MARK: Private Vars
+    
+    private var randomValue: Int {
+        return Int(arc4random_uniform(10_000_000))
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        tickerCounter?.startAnimation()
+    //MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureTickerCounter()
     }
-
+    
+    //MARK: - IBActions
+    
+    @IBAction private func acsendingDidTouch(_ sender: UISwitch) {
+        tickerCounter.isAscending = sender.isOn
+    }
+    
+    @IBAction private func densityDidTouch(_ sender: UISlider) {
+        let value = Int(sender.value)
+        tickerCounter.density = value
+        densityLabel.text = "Density: \(value)"
+    }
+    
+    @IBAction private func durationDidTouch(_ sender: UISlider) {
+        tickerCounter.duration = Double(sender.value)
+        durationLabel.text = "Duration: \(sender.value)"
+    }
+    
+    @IBAction private func timingSegmentDidTouch(_ sender: UISegmentedControl) {
+        // TODO: Update this to use segment control
+        tickerCounter.timing = .easeIn
+    }
+    
+    @IBAction private func alignmentControlDidTouch(_ sender: UISegmentedControl) {
+        // TODO: Update this to use segment control
+        tickerCounter.alignment = .center
+    }
+    
+    @IBAction private func animateDidTouch(_ sender: Any) {
+        demoAnimation()
+    }
+    
+    //MARK: - Private funcs
+    private func demoAnimation() {
+        tickerCounter.value = randomValue
+        tickerCounter.startAnimation()
+    }
+    
+    private func configureTickerCounter() {
+        tickerCounter.textColor = .black
+        tickerCounter.font = UIFont.boldSystemFont(ofSize: 65)
+        tickerCounter.density = 6
+        tickerCounter.durationOffset = 0.5
+        tickerCounter.alignment = .center
+        tickerCounter.duration = 2.0
+        tickerCounter.setPlaceholder(text: "123456")
+    }
+    
 }
-
