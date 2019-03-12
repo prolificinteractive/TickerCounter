@@ -72,7 +72,7 @@ public final class TickerCounter: UIView {
     
     // MARK: Private vars
     private let base10Numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    private var scrollLayers: [CAScrollLayer] = []
+    private var scrollLayers: [UIView] = []
     private var numbersText: [String] = []
     private var scrollLabels: [UILabel] = []
     private var placeholderLabel = UILabel()
@@ -93,6 +93,7 @@ public final class TickerCounter: UIView {
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        clipsToBounds = true
     }
     
     public override init(frame: CGRect) {
@@ -121,7 +122,6 @@ public final class TickerCounter: UIView {
     
     public func stopAnimation() {
         for scrollLayer in scrollLayers {
-            scrollLayer.removeAnimation(forKey: "AnimatedCounterViewAnimation")
         }
     }
     
@@ -130,13 +130,13 @@ public final class TickerCounter: UIView {
     private func prepareAnimations() {
         resetLayersAndAnimations()
         createNumbersText()
-        createScrollLayers()
+        createContentViews()
         createSubviewsForScrollLayers()
     }
     
     private func resetLayersAndAnimations() {
         for layer in scrollLayers {
-            layer.removeFromSuperlayer()
+            layer.removeFromSuperview()
         }
         placeholderLabel.isHidden = true
         numbersText.removeAll()
@@ -169,7 +169,7 @@ public final class TickerCounter: UIView {
     private func createAnimations() {
         placeholderLabel.isHidden = true
         for scrollLayer in scrollLayers {
-            addBasicAnimation(layer: scrollLayer, isFromTop: true)
+            addBasicAnimation(view: scrollLayer, isFromTop: true)
         }
     }
     
@@ -180,19 +180,16 @@ public final class TickerCounter: UIView {
         numbersText = value.description.compactMap { String($0) }
     }
     
-    private func addBasicAnimation(layer: CAScrollLayer, isFromTop: Bool) {
-        guard let lastSublayerFame = layer.sublayers?.last?.frame else { return }
-        let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
-            animation.fromValue = 0
-            animation.toValue = -lastSublayerFame.origin.y
-            animation.timingFunction = CAMediaTimingFunction(name: animationType)
-            animation.duration = 3
-            animation.beginTime = CACurrentMediaTime()
-            animation.isRemovedOnCompletion = false
-        layer.add(animation, forKey: "AnimatedCounterViewAnimation")
+    private func addBasicAnimation(view: UIView, isFromTop: Bool) {
+        guard let lastFrame = view.subviews.last?.frame else { return }
+        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut, animations: {
+            view.frame.origin.y = -lastFrame.origin.y
+        }) { (_) in
+            self.placeholderValue = String(self.value ?? 0)
+        }
     }
     
-    private func createScrollLayers() {
+    private func createContentViews() {
 
         guard let font = font else { return }
         var characterSize = NSString(string: "0").size(withAttributes: [NSAttributedStringKey.font : font])
@@ -219,11 +216,11 @@ public final class TickerCounter: UIView {
         }
         
         for _ in 0..<numbersText.count {
-            let scrollLayer = CAScrollLayer()
-            scrollLayer.frame = CGRect(x: xTracker, y: 0, width: characterSize.width, height: characterSize.height)
+            let contentView = UIView()
+            contentView.frame = CGRect(x: xTracker, y: 0, width: characterSize.width, height: characterSize.height)
             xTracker += characterSize.width
-            scrollLayers.append(scrollLayer)
-            layer.addSublayer(scrollLayer)
+            scrollLayers.append(contentView)
+            addSubview(contentView)
         }
     }
     
@@ -233,12 +230,11 @@ public final class TickerCounter: UIView {
             let scrollLayer = scrollLayers[index]
             let scrollingNumbersText = numberStringGenerator(number: number)
             var yPosition: CGFloat = 0
-            
             // Creates one label for each number
             for numberText in scrollingNumbersText {
                 let numberLabel = createLabel(numberText)
                 numberLabel.frame = CGRect(x: 0, y: yPosition, width: scrollLayer.frame.width, height: scrollLayer.frame.height)
-                scrollLayer.addSublayer(numberLabel.layer)
+                scrollLayer.addSubview(numberLabel)
                 scrollLabels.append(numberLabel) // need to put in a var to keep in memory for some reason
                 yPosition = numberLabel.frame.maxY
             }
