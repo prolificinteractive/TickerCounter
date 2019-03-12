@@ -50,8 +50,18 @@ class ViewController: UIViewController {
     }
     
     @IBAction private func timingSegmentDidTouch(_ sender: UISegmentedControl) {
-        // TODO: Update this to use segment control
-        tickerCounter.timing = .easeIn
+        switch sender.selectedSegmentIndex {
+        case 0:
+            tickerCounter.animationTiming = .curveEaseIn
+        case 1:
+            tickerCounter.animationTiming = .curveEaseOut
+        case 2:
+            tickerCounter.animationTiming = .curveEaseInOut
+        case 3:
+            tickerCounter.animationTiming = .curveLinear
+        default:
+            return
+        }
     }
     
     @IBAction private func alignmentControlDidTouch(_ sender: UISegmentedControl) {

@@ -47,7 +47,8 @@ public final class TickerCounter: UIView {
     public var alignment: Alignment = .fill
     
     /// The desired animation timing
-    public var timing: AnimationTiming = .easeIn
+    
+    public var animationTiming: UIViewAnimationOptions = .curveEaseOut
     
     /// The color of the ticker text
     public var textColor: UIColor = UIColor.black
@@ -80,18 +81,6 @@ public final class TickerCounter: UIView {
     private var numbersText: [String] = []
     private var scrollLabels: [UILabel] = []
     private var placeholderLabel = UILabel()
-    private var animationType: String {
-        switch timing {
-        case .easeIn:
-            return kCAMediaTimingFunctionEaseIn
-        case .easeOut:
-            return kCAMediaTimingFunctionEaseOut
-        case .easeInEaseOut:
-            return kCAMediaTimingFunctionEaseInEaseOut
-        case .linear:
-            return kCAMediaTimingFunctionLinear
-        }
-    }
     
     // MARK: - Initialization
     
@@ -186,11 +175,15 @@ public final class TickerCounter: UIView {
     
     private func addBasicAnimation(view: UIView, isFromTop: Bool) {
         guard let lastFrame = view.subviews.last?.frame else { return }
-        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 1,
+                       delay: 0,
+                       options: animationTiming,
+                       animations: {
             view.frame.origin.y = -lastFrame.origin.y
         }) { (_) in
             self.placeholderValue = String(self.value ?? 0)
         }
+
     }
     
     private func createContentViews() {
