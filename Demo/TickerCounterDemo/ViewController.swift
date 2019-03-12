@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     //MARK: Private Vars
     
     private var randomValue: Int {
-        return 532198
+        return Int(arc4random_uniform(10_000_000))
     }
     
     //MARK: - Lifecycle

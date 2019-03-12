@@ -72,6 +72,10 @@ public final class TickerCounter: UIView {
     
     // MARK: Private vars
     private let base10Numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    private var placeholderNumbers: [Int] {
+        guard let placeholderValue = placeholderValue else { return [] }
+        return placeholderValue.compactMap { Int(String($0)) }
+    }
     private var scrollLayers: [UIView] = []
     private var numbersText: [String] = []
     private var scrollLabels: [UILabel] = []
@@ -228,7 +232,7 @@ public final class TickerCounter: UIView {
         guard numbersText.count == scrollLayers.count else { return }
         for (index, number) in numbersText.enumerated() {
             let scrollLayer = scrollLayers[index]
-            let scrollingNumbersText = numberStringGenerator(number: number)
+            let scrollingNumbersText = generateDirectNumberSequence(start: placeholderNumbers[index], end: Int(number)!)
             var yPosition: CGFloat = 0
             // Creates one label for each number
             for numberText in scrollingNumbersText {
@@ -240,6 +244,28 @@ public final class TickerCounter: UIView {
             }
         }
         
+    }
+    
+    private func generateDirectNumberSequence(start: Int, end: Int) -> [String] {
+        guard end <= 9, start <= 9 else { return [] }
+        var strings = [String]()
+        if start < end {
+            strings += base10Numbers[start ... end]
+        }
+        
+        if end < start {
+            strings += base10Numbers[start ..< base10Numbers.endIndex]
+            strings += base10Numbers[0 ... end]
+        }
+        
+        if end == start {
+            if end == 9 {
+                return generateDirectNumberSequence(start: 0, end: 9)
+            } else {
+                return generateDirectNumberSequence(start: end + 1, end: end)
+            }
+        }
+        return strings
     }
     
     private func numberStringGenerator(number: String) -> [String] {
