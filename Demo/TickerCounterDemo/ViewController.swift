@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     //MARK: Private Vars
     
     private var randomValue: Int {
-        return Int(arc4random_uniform(10_000_000))
+        return 532198
     }
     
     //MARK: - Lifecycle
@@ -76,7 +76,7 @@ class ViewController: UIViewController {
         tickerCounter.durationOffset = 0.5
         tickerCounter.alignment = .center
         tickerCounter.duration = 2.0
-        tickerCounter.setPlaceholder(text: "123456")
+        tickerCounter.setPlaceholder(text: "000000")
     }
     
 }

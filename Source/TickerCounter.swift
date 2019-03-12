@@ -71,7 +71,7 @@ public final class TickerCounter: UIView {
     public var isAscending: Bool = true
     
     // MARK: Private vars
-    
+    private let base10Numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
     private var scrollLayers: [CAScrollLayer] = []
     private var numbersText: [String] = []
     private var scrollLabels: [UILabel] = []
@@ -167,6 +167,7 @@ public final class TickerCounter: UIView {
     }
     
     private func createAnimations() {
+        placeholderLabel.isHidden = true
         for scrollLayer in scrollLayers {
             addBasicAnimation(layer: scrollLayer, isFromTop: true)
         }
@@ -176,7 +177,7 @@ public final class TickerCounter: UIView {
         guard let value = value else {
             return
         }
-        numbersText = value.description.flatMap { String($0) }
+        numbersText = value.description.compactMap { String($0) }
     }
     
     private func addBasicAnimation(layer: CAScrollLayer, isFromTop: Bool) {
@@ -186,6 +187,8 @@ public final class TickerCounter: UIView {
             animation.toValue = -lastSublayerFame.origin.y
             animation.timingFunction = CAMediaTimingFunction(name: animationType)
             animation.duration = 3
+            animation.beginTime = CACurrentMediaTime()
+            animation.isRemovedOnCompletion = false
         layer.add(animation, forKey: "AnimatedCounterViewAnimation")
     }
     
@@ -246,13 +249,8 @@ public final class TickerCounter: UIView {
     private func numberStringGenerator(number: String) -> [String] {
         guard let intNumber = Int(number) else { return [] }
         var strings = [String]()
-        strings.append(number)
         for i in 0...intNumber {
-            let scrollNumber = (intNumber + i) % 10
-            strings.append(scrollNumber.description)
-        }
-        if isAscending {
-            strings.reverse()
+            strings.append(base10Numbers[i])
         }
         return strings
     }
