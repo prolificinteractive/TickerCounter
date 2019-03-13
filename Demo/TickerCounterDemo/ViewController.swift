@@ -15,7 +15,6 @@ class ViewController: UIViewController {
     
     //MARK: IBOutlets
     
-    @IBOutlet private weak var densityLabel: UILabel!
     @IBOutlet private weak var durationLabel: UILabel!
     @IBOutlet private weak var tickerCounter: TickerCounter!
     
@@ -34,38 +33,58 @@ class ViewController: UIViewController {
     
     //MARK: - IBActions
     
-    @IBAction private func acsendingDidTouch(_ sender: UISwitch) {
-        tickerCounter.shouldAnimateFromTop = sender.isOn
-    }
     
-    @IBAction private func densityDidTouch(_ sender: UISlider) {
-        let value = Int(sender.value)
-        tickerCounter.density = value
-        densityLabel.text = "Density: \(value)"
-    }
-    
-    @IBAction private func durationDidTouch(_ sender: UISlider) {
+    @IBAction func durationValueChanged(_ sender: UISlider) {
         tickerCounter.duration = Double(sender.value)
-        durationLabel.text = "Duration: \(sender.value)"
+        durationLabel.text = "Duration \(sender.value.truncatingRemainder(dividingBy: 10))"
     }
     
-    @IBAction private func timingSegmentDidTouch(_ sender: UISegmentedControl) {
+    @IBAction private func scrollDirectionValueChanged(_ sender: UISegmentedControl) {
+        guard let selection = ScrollDirection(rawValue: sender.selectedSegmentIndex) else { return }
+        tickerCounter.scrollDirection = selection
+        
+    }
+    
+    @IBAction private func horizontalDirectionValueChanged(_ sender: UISegmentedControl) {
+        guard let selection = AnimationDirection(rawValue: sender.selectedSegmentIndex) else { return }
+        tickerCounter.animationDirection = selection
+    }
+    
+    @IBAction private func tickerTypeValueChanged(_ sender: UISegmentedControl) {
+        guard let selection = TickerType(rawValue: sender.selectedSegmentIndex) else { return }
+        tickerCounter.type = selection
+    }
+    
+    @IBAction private func calculationSegmentDidTouch(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            tickerCounter.animationTiming = .curveEaseIn
+            tickerCounter.calculationMode = .calculationModeLinear
         case 1:
-            tickerCounter.animationTiming = .curveEaseOut
+            tickerCounter.calculationMode = .calculationModeCubic
         case 2:
-            tickerCounter.animationTiming = .curveEaseInOut
+            tickerCounter.calculationMode = .calculationModeCubicPaced
         case 3:
-            tickerCounter.animationTiming = .curveLinear
+            tickerCounter.calculationMode = .calculationModeDiscrete
+        case 4:
+            tickerCounter.calculationMode = .calculationModePaced
         default:
             return
         }
     }
     
     @IBAction private func alignmentControlDidTouch(_ sender: UISegmentedControl) {
-        // TODO: Update this to use segment control
+        switch sender.selectedSegmentIndex {
+        case 0:
+            tickerCounter.alignment = .left
+        case 1:
+            tickerCounter.alignment = .right
+        case 2:
+            tickerCounter.alignment = .center
+        case 3:
+            tickerCounter.alignment = .fill
+        default:
+            return
+        }
         tickerCounter.alignment = .center
     }
     
@@ -82,10 +101,11 @@ class ViewController: UIViewController {
     private func configureTickerCounter() {
         tickerCounter.textColor = .black
         tickerCounter.font = UIFont.boldSystemFont(ofSize: 65)
-        tickerCounter.density = 6
+        
         tickerCounter.durationOffset = 0.5
         tickerCounter.alignment = .center
-        tickerCounter.duration = 2.0
+        tickerCounter.duration = 0.75
+        tickerCounter.shouldAnimateFromTop = true
         tickerCounter.setPlaceholder(text: "000000")
     }
     

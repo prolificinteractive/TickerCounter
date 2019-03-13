@@ -16,9 +16,20 @@ public enum Alignment: Int {
     case fill
 }
 
-public enum AnimationDirection {
+public enum AnimationDirection: Int {
     case leftToRight
     case rightToLeft
+}
+
+public enum ScrollDirection: Int {
+    case topToBottom
+    case bottomToTop
+}
+
+public enum TickerType: Int {
+    case independent
+    case cascade
+    case even
 }
 
 /// Custom view class which shows an animated counter.
@@ -59,9 +70,20 @@ public final class TickerCounter: UIView {
     
     /// The amount of numbers that will appear in the animation
     /// of each digit between the start and the end
-    public var density: Int = 10
     
-    public var animationDirection: AnimationDirection = .leftToRight
+    public var shouldFadeEdges = true
+    public var animationDirection: AnimationDirection = .rightToLeft
+    public var scrollDirection: ScrollDirection = .topToBottom
+    public var calculationMode: UIViewKeyframeAnimationOptions = .calculationModePaced {
+        didSet {
+            print(calculationMode)
+        }
+    }
+    public var relativeDuration: Double = 0
+    public var relativeStartTime: Double = 0
+    public var shouldStartTogether = false
+    public var usesClosest: Bool = false
+    public var type: TickerType = .even
     
     /// If the ticker is counting up. Set to false to have it count down
     public var shouldAnimateFromTop: Bool = false
@@ -84,7 +106,9 @@ public final class TickerCounter: UIView {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         clipsToBounds = true
-        addGradientMask()
+        if shouldFadeEdges {
+            addGradientMask()
+        }
     }
     
     public override init(frame: CGRect) {
@@ -114,11 +138,6 @@ public final class TickerCounter: UIView {
     public func startAnimation() {
         prepareAnimations()
         createBasicAnimation()
-    }
-    
-    public func stopAnimation() {
-        for scrollLayer in scrollLayers {
-        }
     }
     
     // MARK: - Private Methods
@@ -181,16 +200,21 @@ public final class TickerCounter: UIView {
         case .rightToLeft:
             digitViews = scrollLayers.reversed()
         }
-        UIView.animateKeyframes(withDuration: Double(scrollLayerCount), delay: 0, options: .calculationModeLinear , animations: {
-            for (index, scrollLayer) in digitViews.enumerated() {
-                guard let lastframe = scrollLayer.subviews.last?.frame else { return }
-                UIView.addKeyframe(withRelativeStartTime: ( Double(index) / Double(scrollLayerCount) ),
-                                   relativeDuration: 1 / Double(scrollLayerCount),
-                                   animations: {
-                                    scrollLayer.frame.origin.y = -lastframe.origin.y
-                })
-            }
-            
+        let offset = Double(1) / Double(scrollLayers.count)
+        UIView.animateKeyframes(withDuration: duration,
+                                delay: 0,
+                                options: .calculationModeLinear,
+                                animations: {
+                                    for (index, scrollLayer) in digitViews.enumerated() {
+                                        guard let lastframe = scrollLayer.subviews.last?.frame else { return }
+                                        UIView.addKeyframe(withRelativeStartTime: 0,
+                                                           relativeDuration: (Double(1) / Double(scrollLayerCount - index)),
+                                                           animations: {
+                                                            scrollLayer.frame.origin.y = -lastframe.origin.y
+                                        })
+                                        print("Index: \(index)")
+                                        print("Relative duration: \(Double(1) / Double(scrollLayerCount - index))")
+                                    }
         }) { (_) in
             self.placeholderValue = String(self.value ?? 0)
         }
