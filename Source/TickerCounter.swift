@@ -110,7 +110,7 @@ public final class TickerCounter: UIView {
     
     public func startAnimation() {
         prepareAnimations()
-        createAnimations()
+        createBasicAnimation()
     }
     
     public func stopAnimation() {
@@ -159,10 +159,22 @@ public final class TickerCounter: UIView {
         placeholderLabel.textAlignment = textAlignment
     }
     
-    private func createAnimations() {
+    private func createBasicAnimation() {
         placeholderLabel.isHidden = true
-        for scrollLayer in scrollLayers {
-            addBasicAnimation(view: scrollLayer, isFromTop: true)
+        let scrollLayerCount = scrollLayers.count
+    
+        UIView.animateKeyframes(withDuration: Double(scrollLayerCount), delay: 0, options: .calculationModeLinear , animations: {
+            for (index, scrollLayer) in self.scrollLayers.reversed().enumerated() {
+                guard let lastframe = scrollLayer.subviews.last?.frame else { return }
+                UIView.addKeyframe(withRelativeStartTime: ( Double(index) / Double(scrollLayerCount) ),
+                                   relativeDuration: 1 / Double(scrollLayerCount),
+                                   animations: {
+                                    scrollLayer.frame.origin.y = -lastframe.origin.y
+                })
+            }
+            
+        }) { (_) in
+            self.placeholderValue = String(self.value ?? 0)
         }
     }
     
@@ -171,19 +183,6 @@ public final class TickerCounter: UIView {
             return
         }
         numbersText = value.description.compactMap { String($0) }
-    }
-    
-    private func addBasicAnimation(view: UIView, isFromTop: Bool) {
-        guard let lastFrame = view.subviews.last?.frame else { return }
-        UIView.animate(withDuration: 1,
-                       delay: 0,
-                       options: animationTiming,
-                       animations: {
-            view.frame.origin.y = -lastFrame.origin.y
-        }) { (_) in
-            self.placeholderValue = String(self.value ?? 0)
-        }
-
     }
     
     private func createContentViews() {
