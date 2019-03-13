@@ -74,16 +74,14 @@ public final class TickerCounter: UIView {
     public var shouldFadeEdges = true
     public var animationDirection: AnimationDirection = .rightToLeft
     public var scrollDirection: ScrollDirection = .topToBottom
-    public var calculationMode: UIViewKeyframeAnimationOptions = .calculationModePaced {
+    public var calculationMode: UIViewKeyframeAnimationOptions = .calculationModeLinear {
         didSet {
             print(calculationMode)
         }
     }
-    public var relativeDuration: Double = 0
-    public var relativeStartTime: Double = 0
     public var shouldStartTogether = false
     public var usesClosest: Bool = false
-    public var type: TickerType = .even
+    public var type: TickerType = .independent
     
     /// If the ticker is counting up. Set to false to have it count down
     public var shouldAnimateFromTop: Bool = false
@@ -141,6 +139,30 @@ public final class TickerCounter: UIView {
     }
     
     // MARK: - Private Methods
+    
+    private func relativeStartTime(index: Int) -> Double {
+        switch type {
+        case .cascade:
+            return 0
+        case .independent:
+            let offset = 1 / Double(scrollLayers.count)
+            return Double(index) * offset
+        case .even:
+            return 0
+        }
+
+    }
+    
+    private func relativeDurationFor(index: Int) -> Double {
+        switch type {
+        case .cascade:
+            return 1 / Double(scrollLayers.count - index)
+        case .independent:
+            return 1 / Double(scrollLayers.count)
+        case .even:
+            return 1
+        }
+    }
     
     private func addGradientMask() {
         gradientLayer.frame = bounds
@@ -200,20 +222,20 @@ public final class TickerCounter: UIView {
         case .rightToLeft:
             digitViews = scrollLayers.reversed()
         }
-        let offset = Double(1) / Double(scrollLayers.count)
         UIView.animateKeyframes(withDuration: duration,
                                 delay: 0,
-                                options: .calculationModeLinear,
+                                options: calculationMode,
                                 animations: {
                                     for (index, scrollLayer) in digitViews.enumerated() {
                                         guard let lastframe = scrollLayer.subviews.last?.frame else { return }
-                                        UIView.addKeyframe(withRelativeStartTime: 0,
-                                                           relativeDuration: (Double(1) / Double(scrollLayerCount - index)),
+                                        UIView.addKeyframe(withRelativeStartTime: self.relativeStartTime(index: index),
+                                                           relativeDuration: self.relativeDurationFor(index: index),
                                                            animations: {
                                                             scrollLayer.frame.origin.y = -lastframe.origin.y
                                         })
                                         print("Index: \(index)")
-                                        print("Relative duration: \(Double(1) / Double(scrollLayerCount - index))")
+                                        print("Relative duration: \(self.relativeDurationFor(index: index))")
+                                        print("Relative start: \(self.relativeStartTime(index: index))")
                                     }
         }) { (_) in
             self.placeholderValue = String(self.value ?? 0)
@@ -275,7 +297,7 @@ public final class TickerCounter: UIView {
                 numberLabel.frame = CGRect(x: 0, y: yPosition, width: scrollLayer.frame.width, height: scrollLayer.frame.height)
                 scrollLayer.addSubview(numberLabel)
                 scrollLabels.append(numberLabel) // need to put in a var to keep in memory for some reason
-                if shouldAnimateFromTop {
+                if scrollDirection == .topToBottom {
                     yPosition -= numberLabel.frame.height
                 } else {
                     yPosition = numberLabel.frame.maxY
