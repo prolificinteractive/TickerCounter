@@ -35,7 +35,7 @@ class ViewController: UIViewController {
     //MARK: - IBActions
     
     @IBAction private func acsendingDidTouch(_ sender: UISwitch) {
-        tickerCounter.isAscending = sender.isOn
+        tickerCounter.shouldAnimateFromTop = sender.isOn
     }
     
     @IBAction private func densityDidTouch(_ sender: UISlider) {

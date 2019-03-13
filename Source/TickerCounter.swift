@@ -8,18 +8,17 @@
 
 import UIKit
 
-public enum AnimationTiming: Int {
-    case easeIn
-    case easeOut
-    case easeInEaseOut
-    case linear
-}
 
 public enum Alignment: Int {
     case left
     case right
     case center
     case fill
+}
+
+public enum AnimationDirection {
+    case leftToRight
+    case rightToLeft
 }
 
 /// Custom view class which shows an animated counter.
@@ -62,11 +61,13 @@ public final class TickerCounter: UIView {
     /// of each digit between the start and the end
     public var density: Int = 10
     
+    public var animationDirection: AnimationDirection = .leftToRight
     
-    /// If the ticker is counting up
-    public var isAscending: Bool = true
+    /// If the ticker is counting up. Set to false to have it count down
+    public var shouldAnimateFromTop: Bool = false
     
     // MARK: Private vars
+    
     private let base10Numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
     private var placeholderNumbers: [Int] {
         guard let placeholderValue = placeholderValue else { return [] }
@@ -156,9 +157,15 @@ public final class TickerCounter: UIView {
     private func createBasicAnimation() {
         placeholderLabel.isHidden = true
         let scrollLayerCount = scrollLayers.count
-    
+        let digitViews: [UIView]
+        switch animationDirection {
+        case .leftToRight:
+            digitViews = scrollLayers
+        case .rightToLeft:
+            digitViews = scrollLayers.reversed()
+        }
         UIView.animateKeyframes(withDuration: Double(scrollLayerCount), delay: 0, options: .calculationModeLinear , animations: {
-            for (index, scrollLayer) in self.scrollLayers.reversed().enumerated() {
+            for (index, scrollLayer) in digitViews.enumerated() {
                 guard let lastframe = scrollLayer.subviews.last?.frame else { return }
                 UIView.addKeyframe(withRelativeStartTime: ( Double(index) / Double(scrollLayerCount) ),
                                    relativeDuration: 1 / Double(scrollLayerCount),
@@ -227,10 +234,14 @@ public final class TickerCounter: UIView {
                 numberLabel.frame = CGRect(x: 0, y: yPosition, width: scrollLayer.frame.width, height: scrollLayer.frame.height)
                 scrollLayer.addSubview(numberLabel)
                 scrollLabels.append(numberLabel) // need to put in a var to keep in memory for some reason
-                yPosition = numberLabel.frame.maxY
+                if shouldAnimateFromTop {
+                    yPosition -= numberLabel.frame.height
+                } else {
+                    yPosition = numberLabel.frame.maxY
+                    
+                }
             }
         }
-        
     }
     
     private func generateDirectNumberSequence(start: Int, end: Int) -> [String] {
@@ -239,12 +250,10 @@ public final class TickerCounter: UIView {
         if start < end {
             strings += base10Numbers[start ... end]
         }
-        
         if end < start {
             strings += base10Numbers[start ..< base10Numbers.endIndex]
             strings += base10Numbers[0 ... end]
         }
-        
         if end == start {
             if end == 9 {
                 return generateDirectNumberSequence(start: 0, end: 9)
