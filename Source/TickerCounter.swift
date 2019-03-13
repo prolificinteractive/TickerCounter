@@ -30,12 +30,7 @@ public final class TickerCounter: UIView {
     // MARK: - Public API
     
     /// The ending value of the counter
-    public var value: Int? {
-        didSet {
-            guard let value = value else { return }
-            placeholderValue = String(value)
-        }
-    }
+    public var value: Int?
     
     /// The starting "value" of the ticker
     public var placeholderValue: String?
@@ -131,7 +126,6 @@ public final class TickerCounter: UIView {
         for layer in scrollLayers {
             layer.removeFromSuperview()
         }
-        placeholderLabel.isHidden = true
         numbersText.removeAll()
         scrollLayers.removeAll()
         scrollLabels.removeAll()
@@ -223,6 +217,7 @@ public final class TickerCounter: UIView {
     private func createSubviewsForScrollLayers() {
         guard numbersText.count == scrollLayers.count else { return }
         for (index, number) in numbersText.enumerated() {
+            // TODO: this is unsafe. Need to account for when the new number is bigger or smaller than old number
             let scrollLayer = scrollLayers[index]
             let scrollingNumbersText = generateDirectNumberSequence(start: placeholderNumbers[index], end: Int(number)!)
             var yPosition: CGFloat = 0
