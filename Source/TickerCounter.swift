@@ -77,16 +77,23 @@ public final class TickerCounter: UIView {
     private var numbersText: [String] = []
     private var scrollLabels: [UILabel] = []
     private var placeholderLabel = UILabel()
+    private var gradientLayer = CAGradientLayer()
     
     // MARK: - Initialization
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         clipsToBounds = true
+        addGradientMask()
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        gradientLayer.frame = bounds
     }
     
     // MARK: - Public Methods
@@ -115,6 +122,16 @@ public final class TickerCounter: UIView {
     }
     
     // MARK: - Private Methods
+    
+    private func addGradientMask() {
+        gradientLayer.frame = bounds
+        gradientLayer.colors = [UIColor.clear.cgColor,
+                                UIColor.black.cgColor,
+                                UIColor.black.cgColor,
+                                UIColor.clear.cgColor]
+        gradientLayer.locations = [0, 0.1, 0.9, 1]
+        layer.mask = gradientLayer
+    }
     
     private func prepareAnimations() {
         resetLayersAndAnimations()
@@ -238,7 +255,6 @@ public final class TickerCounter: UIView {
                     yPosition -= numberLabel.frame.height
                 } else {
                     yPosition = numberLabel.frame.maxY
-                    
                 }
             }
         }
