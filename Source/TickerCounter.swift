@@ -316,15 +316,6 @@ public final class TickerCounter: UIView {
         return strings
     }
     
-    private func numberStringGenerator(number: String) -> [String] {
-        guard let intNumber = Int(number) else { return [] }
-        var strings = [String]()
-        for i in 0...intNumber {
-            strings.append(base10Numbers[i])
-        }
-        return strings
-    }
-    
     private func createLabel(_ text: String) -> UILabel {
         let label = UILabel()
         label.textColor = textColor

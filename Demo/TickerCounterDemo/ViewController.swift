@@ -21,8 +21,11 @@ class ViewController: UIViewController {
     //MARK: Private Vars
     
     private var randomValue: Int {
-        return Int.random(in: 100000...999999)
+        let random = Int.random(in: 100000...999999)
+        lastValue = random
+        return random
     }
+    private var lastValue = 0
     
     //MARK: - Lifecycle
     
@@ -92,24 +95,22 @@ class ViewController: UIViewController {
         tickerCounter.alignment = .center
     }
     
-    @IBAction private func animateDidTouch(_ sender: Any) {
-        demoAnimation()
+    @IBAction private func shuffleDidTouchUpInside(_ sender: Any) {
+        shuffleValue()
     }
     
+    
     //MARK: - Private funcs
-    private func demoAnimation() {
+    private func shuffleValue() {
         tickerCounter.value = randomValue
         tickerCounter.startAnimation()
     }
     
     private func configureTickerCounter() {
         tickerCounter.textColor = .black
-        tickerCounter.font = UIFont.boldSystemFont(ofSize: 65)
-        
-        tickerCounter.durationOffset = 0.5
+        tickerCounter.font = UIFont.boldSystemFont(ofSize: 85)
         tickerCounter.alignment = .center
         tickerCounter.duration = 0.75
-        tickerCounter.shouldAnimateFromTop = true
         tickerCounter.setPlaceholder(text: "000000")
     }
     
