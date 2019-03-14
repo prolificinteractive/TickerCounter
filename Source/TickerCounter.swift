@@ -8,6 +8,10 @@
 
 import UIKit
 
+public enum RotationType: Int {
+    case full
+    case nearest
+}
 
 public enum Alignment: Int {
     case left
@@ -49,11 +53,7 @@ public final class TickerCounter: UIView {
     public var placeholderActive = true
     
     /// The alignment of the number within the frame
-    public var alignment: Alignment = .fill
-    
-    /// The desired animation timing
-    
-    public var animationTiming: UIViewAnimationOptions = .curveEaseOut
+    public var alignment: NSTextAlignment = .center
     
     /// The color of the ticker text
     public var textColor: UIColor = UIColor.black
@@ -63,29 +63,13 @@ public final class TickerCounter: UIView {
     
     /// The duration of the animation from start to completion
     public var duration: CFTimeInterval = 1
-    
-    /// The duration of the offset between the animation of each digit.
-    /// Set to 0 for all numbers to animate together
-    public var durationOffset: CFTimeInterval = 0.1
-    
-    /// The amount of numbers that will appear in the animation
-    /// of each digit between the start and the end
-    
     public var shouldFadeEdges = true
     public var animationDirection: AnimationDirection = .rightToLeft
     public var scrollDirection: ScrollDirection = .topToBottom
-    public var calculationMode: UIViewKeyframeAnimationOptions = .calculationModeLinear {
-        didSet {
-            print(calculationMode)
-        }
-    }
-    public var shouldStartTogether = false
-    public var usesClosest: Bool = false
+    public var calculationMode: UIViewKeyframeAnimationOptions = .calculationModeLinear
     public var type: TickerType = .independent
-    
-    /// If the ticker is counting up. Set to false to have it count down
-    public var shouldAnimateFromTop: Bool = false
-    
+    public var rotationType: RotationType = .nearest
+
     // MARK: Private vars
     
     private let base10Numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -198,23 +182,11 @@ public final class TickerCounter: UIView {
         placeholderLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         placeholderLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
         placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        let textAlignment: NSTextAlignment
-        switch alignment {
-        case .left:
-            textAlignment = .left
-        case .right:
-            textAlignment = .right
-        case .center:
-            textAlignment = .center
-        case .fill:
-            textAlignment = .justified
-        }
-        placeholderLabel.textAlignment = textAlignment
+        placeholderLabel.textAlignment = alignment
     }
     
     private func createBasicAnimation() {
         placeholderLabel.isHidden = true
-        let scrollLayerCount = scrollLayers.count
         let digitViews: [UIView]
         switch animationDirection {
         case .leftToRight:
@@ -258,21 +230,17 @@ public final class TickerCounter: UIView {
         
         // Controls the x position of the frame of the scroll layer based on the alignment
         switch alignment {
-        // The X position starts at 0 within the label
         case .left:
             xTracker = 0
         case .right:
-            // The x position is the far right of the label minus the width of the string
             xTracker = bounds.width - stringWidth
         case .center:
-            // The x position is the middle of the label minus half the width of the string (so that
-            // the center of the string is in the bounds of the label
             xTracker = bounds.midX - (stringWidth / 2)
-        case .fill:
-            // Starts at 0 and then the width of each scroll label is the width of the label divided by the
-            // number of characters
+        case .justified:
             xTracker = 0
             characterSize.width = bounds.width / CGFloat(numbersText.count)
+        default:
+            xTracker = 0
         }
         
         for _ in 0..<numbersText.count {
@@ -289,7 +257,9 @@ public final class TickerCounter: UIView {
         for (index, number) in numbersText.enumerated() {
             // TODO: this is unsafe. Need to account for when the new number is bigger or smaller than old number
             let scrollLayer = scrollLayers[index]
-            let scrollingNumbersText = generateDirectNumberSequence(start: placeholderNumbers[index], end: Int(number)!)
+            let scrollingNumbersText = rotationType == .nearest ?
+            generateDirectNumberSequence(start: placeholderNumbers[index], end: Int(number)!) :
+            generateFullRotationNumberSequence(start: placeholderNumbers[index], end: Int(number)!)
             var yPosition: CGFloat = 0
             // Creates one label for each number
             for numberText in scrollingNumbersText {
@@ -305,10 +275,13 @@ public final class TickerCounter: UIView {
             }
         }
     }
-    
-    private func generateDirectNumberSequence(start: Int, end: Int) -> [String] {
+    private func generateFullRotationNumberSequence(start: Int, end: Int) -> [String] {
         guard end <= 9, start <= 9 else { return [] }
+        
         var strings = [String]()
+        strings += base10Numbers[start ..< base10Numbers.endIndex]
+        strings += base10Numbers[0 ..< start]
+       
         if start < end {
             strings += base10Numbers[start ... end]
         }
@@ -317,12 +290,29 @@ public final class TickerCounter: UIView {
             strings += base10Numbers[0 ... end]
         }
         if end == start {
-            if end == 9 {
-                return generateDirectNumberSequence(start: 0, end: 9)
-            } else {
-                return generateDirectNumberSequence(start: end + 1, end: end)
-            }
+            strings.append(base10Numbers[end])
         }
+        print("Start: \(start), end: \(end)")
+        print(strings)
+        return strings
+    }
+    
+    private func generateDirectNumberSequence(start: Int, end: Int) -> [String] {
+        guard end <= 9, start <= 9 else { return [] }
+        var strings = [String]()
+        
+        if start < end {
+            strings += base10Numbers[start ... end]
+        }
+        if end < start {
+            strings += base10Numbers[start ..< base10Numbers.endIndex]
+            strings += base10Numbers[0 ... end]
+        }
+        if end == start {
+            strings.append(base10Numbers[start])
+        }
+        print("Start: \(start), end: \(end)")
+        print(strings)
         return strings
     }
     

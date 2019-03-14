@@ -33,8 +33,12 @@ class ViewController: UIViewController {
     
     //MARK: - IBActions
     
+    @IBAction private func rotationType(_ sender: UISegmentedControl) {
+        guard let selection = RotationType(rawValue: sender.selectedSegmentIndex) else { return }
+        tickerCounter.rotationType = selection
+    }
     
-    @IBAction func durationValueChanged(_ sender: UISlider) {
+    @IBAction private func durationValueChanged(_ sender: UISlider) {
         tickerCounter.duration = Double(sender.value)
         durationLabel.text = "Duration \(sender.value.truncatingRemainder(dividingBy: 10))"
     }
@@ -81,7 +85,7 @@ class ViewController: UIViewController {
         case 2:
             tickerCounter.alignment = .center
         case 3:
-            tickerCounter.alignment = .fill
+            tickerCounter.alignment = .justified
         default:
             return
         }
