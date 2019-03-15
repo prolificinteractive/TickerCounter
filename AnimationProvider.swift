@@ -7,8 +7,7 @@
 
 import Foundation
 
-class AnimationProvider {
-    
-    
-    
+
+class AnimationProvider: AnimationProviderProtocol {
+
 }

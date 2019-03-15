@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.description      = "A counter with a ticker animation." 
   s.homepage         = "https://github.com/ProlificInteractive/TickerCounter"
   s.license          = { :type => "MIT", :file => "LICENSE" }
-  s.author           = { "Claire Lynch" => "claire@prolificinteractive.com" }
+  s.author           = { "Kevin Miller" => "k.miller@prolificinteractive.com" }
   s.source           = { :git => "https://github.com/ProlificInteractive/TickerCounter.git", :tag => s.version.to_s }
   
   s.platforms     = { :ios => "9.0" }

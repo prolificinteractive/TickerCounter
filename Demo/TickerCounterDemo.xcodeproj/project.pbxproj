@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5D4D5503CCC7C52C7A6BD356 /* Pods_TickerCounterDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E539FC3C4DEB5BC2660F8A6D /* Pods_TickerCounterDemo.framework */; };
+		87752859223BF01F00968C97 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87752858223BF01F00968C97 /* DemoViewController.swift */; };
 		DC11C5C320377DCA00504CFB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11C5C220377DCA00504CFB /* AppDelegate.swift */; };
-		DC11C5C520377DCA00504CFB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11C5C420377DCA00504CFB /* ViewController.swift */; };
+		DC11C5C520377DCA00504CFB /* ConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11C5C420377DCA00504CFB /* ConfigurationViewController.swift */; };
 		DC11C5C820377DCA00504CFB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC11C5C620377DCA00504CFB /* Main.storyboard */; };
 		DC11C5CA20377DCA00504CFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC11C5C920377DCA00504CFB /* Assets.xcassets */; };
 		DC11C5CD20377DCA00504CFB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC11C5CB20377DCA00504CFB /* LaunchScreen.storyboard */; };
@@ -18,9 +19,10 @@
 /* Begin PBXFileReference section */
 		0506E7E09C50707450D30BDA /* Pods-TickerCounterDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TickerCounterDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TickerCounterDemo/Pods-TickerCounterDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		0B38D14ACC7B8E37A2282F3A /* Pods-TickerCounterDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TickerCounterDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-TickerCounterDemo/Pods-TickerCounterDemo.release.xcconfig"; sourceTree = "<group>"; };
+		87752858223BF01F00968C97 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		DC11C5BF20377DCA00504CFB /* TickerCounterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TickerCounterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC11C5C220377DCA00504CFB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DC11C5C420377DCA00504CFB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DC11C5C420377DCA00504CFB /* ConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewController.swift; sourceTree = "<group>"; };
 		DC11C5C720377DCA00504CFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DC11C5C920377DCA00504CFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DC11C5CC20377DCA00504CFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -79,7 +81,8 @@
 			isa = PBXGroup;
 			children = (
 				DC11C5C220377DCA00504CFB /* AppDelegate.swift */,
-				DC11C5C420377DCA00504CFB /* ViewController.swift */,
+				DC11C5C420377DCA00504CFB /* ConfigurationViewController.swift */,
+				87752858223BF01F00968C97 /* DemoViewController.swift */,
 				DC11C5C620377DCA00504CFB /* Main.storyboard */,
 				DC11C5C920377DCA00504CFB /* Assets.xcassets */,
 				DC11C5CB20377DCA00504CFB /* LaunchScreen.storyboard */,
@@ -201,7 +204,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC11C5C520377DCA00504CFB /* ViewController.swift in Sources */,
+				87752859223BF01F00968C97 /* DemoViewController.swift in Sources */,
+				DC11C5C520377DCA00504CFB /* ConfigurationViewController.swift in Sources */,
 				DC11C5C320377DCA00504CFB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

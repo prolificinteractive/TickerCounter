@@ -8,34 +8,6 @@
 
 import UIKit
 
-public enum RotationType: Int {
-    case full
-    case nearest
-}
-
-public enum Alignment: Int {
-    case left
-    case right
-    case center
-    case fill
-}
-
-public enum AnimationDirection: Int {
-    case leftToRight
-    case rightToLeft
-}
-
-public enum ScrollDirection: Int {
-    case topToBottom
-    case bottomToTop
-}
-
-public enum TickerType: Int {
-    case independent
-    case cascade
-    case even
-}
-
 /// Custom view class which shows an animated counter.
 public final class TickerCounter: UIView {
     
@@ -275,6 +247,7 @@ public final class TickerCounter: UIView {
             }
         }
     }
+    
     private func generateFullRotationNumberSequence(start: Int, end: Int) -> [String] {
         guard end <= 9, start <= 9 else { return [] }
         
@@ -292,8 +265,6 @@ public final class TickerCounter: UIView {
         if end == start {
             strings.append(base10Numbers[end])
         }
-        print("Start: \(start), end: \(end)")
-        print(strings)
         return strings
     }
     
@@ -311,8 +282,6 @@ public final class TickerCounter: UIView {
         if end == start {
             strings.append(base10Numbers[start])
         }
-        print("Start: \(start), end: \(end)")
-        print(strings)
         return strings
     }
     

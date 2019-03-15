@@ -1,15 +1,15 @@
 //
-//  ViewController.swift
+//  ConfigurationViewController.swift
 //  TickerCounterDemo
 //
-//  Created by Harlan Kellaway on 2/16/18.
+//  Created by Kevin Miller on 3/14/19.
 //  Copyright © 2018 Prolific Interactive. All rights reserved.
 //
 
 import UIKit
 import TickerCounter
 
-class ViewController: UIViewController {
+class ConfigurationViewController: UIViewController {
     
     //MARK: - Properties
     
