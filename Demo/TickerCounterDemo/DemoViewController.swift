@@ -46,13 +46,14 @@ class DemoViewController: UIViewController {
     }
     
     private func setupSecondsCounter() {
-        secondsCounter.font = UIFont.systemFont(ofSize: 75)
+        secondsCounter.font = UIFont.systemFont(ofSize: 60)
         secondsCounter.setPlaceholder(text: "000000")
         secondsCounter.textColor = .black
         secondsCounter.alignment = .center
         secondsCounter.value = secondsCount
-        secondsCounter.scrollDirection = .topToBottom
+        secondsCounter.scrollDirection = .bottomToTop
         secondsCounter.animationDirection = .rightToLeft
+        secondsCounter.rotationType = .nearest
         secondsCounter.calculationMode = .calculationModeLinear
         secondsCounter.type = .even
         secondsCounter.duration = 1
@@ -60,7 +61,7 @@ class DemoViewController: UIViewController {
     
     private func setupLikeCounter() {
         likeCounter.font = UIFont.systemFont(ofSize: 15)
-        likeCounter.setPlaceholder(text: "00000")
+        likeCounter.setPlaceholder(text: "000")
         likeCounter.textColor = .black
         likeCounter.alignment = .center
         likeCounter.value = likeCount
@@ -72,7 +73,18 @@ class DemoViewController: UIViewController {
     }
     
     private func setupTimer() {
-        
+        let _ = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
+            self.updateCounters()
+        }
+    }
+    
+    private func updateCounters() {
+        likeCount += Int.random(in: 1...10)
+        secondsCount -= 1
+        likeCounter.value = likeCount
+        likeCounter.startAnimation()
+        secondsCounter.value = secondsCount
+        secondsCounter.startAnimation()
     }
 
 }

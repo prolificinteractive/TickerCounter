@@ -8,6 +8,7 @@
 import Foundation
 
 public enum TickerType: Int {
+    
     case independent
     case cascade
     case even
