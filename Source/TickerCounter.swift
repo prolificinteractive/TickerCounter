@@ -102,29 +102,7 @@ public final class TickerCounter: UIView {
     
     // MARK: - Private Methods
     
-    private func relativeStartTime(index: Int) -> Double {
-        switch type {
-        case .cascade:
-            return 0
-        case .independent:
-            let offset = 1 / Double(scrollLayers.count)
-            return Double(index) * offset
-        case .even:
-            return 0
-        }
-
-    }
-    
-    private func relativeDurationFor(index: Int) -> Double {
-        switch type {
-        case .cascade:
-            return 1 / Double(scrollLayers.count - index)
-        case .independent:
-            return 1 / Double(scrollLayers.count)
-        case .even:
-            return 1
-        }
-    }
+   
     
     private func addGradientMask() {
         gradientLayer.frame = bounds
@@ -178,8 +156,8 @@ public final class TickerCounter: UIView {
                                 animations: {
                                     for (index, scrollLayer) in digitViews.enumerated() {
                                         guard let lastframe = scrollLayer.subviews.last?.frame else { return }
-                                        UIView.addKeyframe(withRelativeStartTime: self.relativeStartTime(index: index),
-                                                           relativeDuration: self.relativeDurationFor(index: index),
+                                        UIView.addKeyframe(withRelativeStartTime: self.type.relativeStartTime(index: index, count: self.scrollLayers.count),
+                                                           relativeDuration: self.type.relativeDurationFor(index: index, count: self.scrollLayers.count),
                                                            animations: {
                                                             scrollLayer.frame.origin.y = -lastframe.origin.y
                                         })
@@ -241,9 +219,7 @@ public final class TickerCounter: UIView {
                 startingNumber = placeholderNumbers[index]
             }
             if number.isDecimalDigit() {
-                scrollingNumbersText = rotationType == .nearest ?
-                    generateDirectNumberSequence(start: startingNumber, end: Int(number)!) :
-                    generateFullRotationNumberSequence(start: startingNumber, end: Int(number)!)
+                scrollingNumbersText = startingNumber.directDecimalSequenceTo(Int(number)!).stringArray()
             } else {
                 scrollingNumbersText = [number]
             }

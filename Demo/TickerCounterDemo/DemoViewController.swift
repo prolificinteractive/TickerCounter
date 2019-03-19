@@ -41,8 +41,9 @@ class DemoViewController: UIViewController {
         totalRidesCounter.value = rideCount
         totalRidesCounter.animationDirection = .rightToLeft
         totalRidesCounter.calculationMode = .calculationModeLinear
-        totalRidesCounter.type = .cascade
-        totalRidesCounter.duration = 1
+        totalRidesCounter.rotationType = .full
+        totalRidesCounter.type = .independent
+        totalRidesCounter.duration = 1.5
     }
     
     private func setupSecondsCounter() {
@@ -73,7 +74,7 @@ class DemoViewController: UIViewController {
     }
     
     private func setupTimer() {
-        let _ = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
+        let _ = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (timer) in
             self.updateCounters()
         }
     }
@@ -85,6 +86,9 @@ class DemoViewController: UIViewController {
         likeCounter.startAnimation()
         secondsCounter.value = secondsCount
         secondsCounter.startAnimation()
+        rideCount = Int.random(in: 100..<1000)
+        totalRidesCounter.value = rideCount
+        totalRidesCounter.startAnimation()
     }
 
 }

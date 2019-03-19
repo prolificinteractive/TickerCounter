@@ -7,6 +7,9 @@ Pod::Spec.new do |s|
   s.license          = { :type => "MIT", :file => "LICENSE" }
   s.author           = { "Kevin Miller" => "k.miller@prolificinteractive.com" }
   s.source           = { :git => "https://github.com/ProlificInteractive/TickerCounter.git", :tag => s.version.to_s }
+  s.test_spec		 'TickerCounterTests' do |test_spec|
+  						test_spec.source_files = 'Tests/*'
+  					end
   
   s.platforms     = { :ios => "9.0" }
   s.requires_arc = true
