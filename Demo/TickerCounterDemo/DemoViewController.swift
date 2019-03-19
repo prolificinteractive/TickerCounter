@@ -41,7 +41,6 @@ class DemoViewController: UIViewController {
         totalRidesCounter.value = rideCount
         totalRidesCounter.animationDirection = .rightToLeft
         totalRidesCounter.calculationMode = .calculationModeLinear
-        totalRidesCounter.rotationType = .full
         totalRidesCounter.type = .independent
         totalRidesCounter.duration = 1.5
     }
@@ -54,7 +53,6 @@ class DemoViewController: UIViewController {
         secondsCounter.value = secondsCount
         secondsCounter.scrollDirection = .bottomToTop
         secondsCounter.animationDirection = .rightToLeft
-        secondsCounter.rotationType = .nearest
         secondsCounter.calculationMode = .calculationModeLinear
         secondsCounter.type = .even
         secondsCounter.duration = 1

@@ -35,17 +35,24 @@ public final class TickerCounter: UIView {
     
     /// The duration of the animation from start to completion
     public var duration: CFTimeInterval = 1
+    
+    /// Controls whether the edges of the view fade to transparent
     public var shouldFadeEdges = true
+    
+    /// Controls the horizontal direction of the animation
     public var animationDirection: AnimationDirection = .rightToLeft
+    
+    /// Controls the vertical direction of the animation
     public var scrollDirection: ScrollDirection = .topToBottom
+    
+    /// Controls the calculation mode of the keyframe animation
     public var calculationMode: UIViewKeyframeAnimationOptions = .calculationModeLinear
+    
+    /// Controls the type of the ticker counter
     public var type: TickerType = .independent
-    public var rotationType: RotationType = .nearest
-    public var commaFormatting = true
-
+    
     // MARK: Private vars
     
-    private let base10Numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
     private var placeholderNumbers: [Int] {
         guard let placeholderValue = placeholderValue else { return [] }
         return placeholderValue.compactMap { Int(String($0)) }
@@ -101,8 +108,6 @@ public final class TickerCounter: UIView {
     }
     
     // MARK: - Private Methods
-    
-   
     
     private func addGradientMask() {
         gradientLayer.frame = bounds
@@ -168,10 +173,11 @@ public final class TickerCounter: UIView {
     }
     
     private func createNumbersText() {
-        guard let value = value else {
-            return
+        guard let value = value ,
+            let formatted = numberFormatter.string(from: NSNumber(value: value))
+            else {
+                return
         }
-        let formatted = numberFormatter.string(from: NSNumber(value: value))!
         numbersText = formatted.description.compactMap { String($0) }
     }
     
@@ -215,15 +221,17 @@ public final class TickerCounter: UIView {
         for (index, number) in numbersText.enumerated() {
             let scrollLayer = scrollLayers[index]
             var startingNumber = 0
+            var yPosition: CGFloat = 0
+            
             if index < placeholderNumbers.endIndex {
                 startingNumber = placeholderNumbers[index]
             }
             if number.isDecimalDigit() {
-                scrollingNumbersText = startingNumber.directDecimalSequenceTo(Int(number)!).stringArray()
+                guard let intNumber = Int(number) else { return }
+                scrollingNumbersText = startingNumber.ascendingDecimalSequenceTo(intNumber).stringArray()
             } else {
                 scrollingNumbersText = [number]
             }
-            var yPosition: CGFloat = 0
             
             for numberText in scrollingNumbersText {
                 let numberLabel = createLabel(numberText)
@@ -237,43 +245,6 @@ public final class TickerCounter: UIView {
                 }
             }
         }
-    }
-    
-    private func generateFullRotationNumberSequence(start: Int, end: Int) -> [String] {
-        guard end <= 9, start <= 9 else { return [] }
-        
-        var strings = [String]()
-        strings += base10Numbers[start ..< base10Numbers.endIndex]
-        strings += base10Numbers[0 ..< start]
-       
-        if start < end {
-            strings += base10Numbers[start ... end]
-        }
-        if end < start {
-            strings += base10Numbers[start ..< base10Numbers.endIndex]
-            strings += base10Numbers[0 ... end]
-        }
-        if end == start {
-            strings.append(base10Numbers[end])
-        }
-        return strings
-    }
-    
-    private func generateDirectNumberSequence(start: Int, end: Int) -> [String] {
-        guard end <= 9, start <= 9 else { return [] }
-        var strings = [String]()
-        
-        if start < end {
-            strings += base10Numbers[start ... end]
-        }
-        if end < start {
-            strings += base10Numbers[start ..< base10Numbers.endIndex]
-            strings += base10Numbers[0 ... end]
-        }
-        if end == start {
-            strings.append(base10Numbers[start])
-        }
-        return strings
     }
     
     private func createLabel(_ text: String) -> UILabel {

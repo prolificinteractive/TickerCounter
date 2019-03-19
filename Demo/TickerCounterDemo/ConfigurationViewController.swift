@@ -36,11 +36,6 @@ class ConfigurationViewController: UIViewController {
     
     //MARK: - IBActions
     
-    @IBAction private func rotationType(_ sender: UISegmentedControl) {
-        guard let selection = RotationType(rawValue: sender.selectedSegmentIndex) else { return }
-        tickerCounter.rotationType = selection
-    }
-    
     @IBAction private func durationValueChanged(_ sender: UISlider) {
         tickerCounter.duration = Double(sender.value)
         durationLabel.text = "Duration \(sender.value.truncatingRemainder(dividingBy: 10))"
@@ -108,10 +103,10 @@ class ConfigurationViewController: UIViewController {
     
     private func configureTickerCounter() {
         tickerCounter.textColor = .black
-        tickerCounter.font = UIFont.boldSystemFont(ofSize: 85)
+        tickerCounter.font = UIFont.boldSystemFont(ofSize: 75)
         tickerCounter.alignment = .center
         tickerCounter.duration = 0.75
-        tickerCounter.setPlaceholder(text: "000000")
+        tickerCounter.setPlaceholder(text: "000,000")
     }
     
 }

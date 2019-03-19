@@ -9,38 +9,47 @@ import Foundation
 
 extension Int {
     
-    func directDecimalSequenceTo(_ int: Int) -> [Int] {
-        let maxInt = Swift.max(self, int)
-        let minInt = Swift.min(self, int)
-        if minInt < 0 || maxInt > 9 {
-            return []
-        }
+    func ascendingDecimalSequenceTo(_ end: Int) -> [Int] {
+        guard
+            self <= 9,
+            end <= 9,
+            self >= 0,
+            end >= 0 else { return [] }
+        let decimalDigits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         var array = [Int]()
-        for i in minInt...maxInt {
-            array.append(i)
+
+        if self < end {
+            array += decimalDigits[self ... end]
         }
-        if int < self {
-            return array.reversed()
+        if end < self {
+            array += decimalDigits[self ..< decimalDigits.endIndex]
+            array += decimalDigits[0 ... end]
+        }
+        if self == end {
+            array.append(decimalDigits[self])
         }
         return array
     }
     
-    func indirectDecimalSequenceTo(_ int: Int) -> [Int] {
-        let maxInt = Swift.max(self, int)
-        let minInt = Swift.min(self, int)
-        if minInt < 0 || maxInt > 9 {
-            return []
-        }
+    func descendingDecimalSequenceTo(_ end: Int) -> [Int] {
+        guard
+            self <= 9,
+            end <= 9,
+            self >= 0,
+            end >= 0 else { return [] }
+        let decimalDigits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         var array = [Int]()
-        for i in minInt...9 {
-            array.append(i)
+        
+        if self < end {
+            array += decimalDigits[end..<decimalDigits.endIndex]
+            array += decimalDigits[0...self]
         }
-        for i in 0...maxInt {
-            array.append(i)
+        if end < self {
+            array += decimalDigits[end...self]
         }
-        if int < self {
-            return array.reversed()
+        if self == end {
+            array.append(decimalDigits[self])
         }
-        return array
+        return array.reversed()
     }
 }
