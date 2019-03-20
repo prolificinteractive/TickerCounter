@@ -1,8 +1,9 @@
 //
 //  Array+NumberSequence.swift
-//  TickerCounter
+//  Ticker Counter
 //
-//  Created by Kevin Miller  on 3/18/19.
+//  Created by Kevin Miller  on 3/14/19.
+//  Copyright © 2019 Prolific Interactive. All rights reserved.
 //
 
 import Foundation
