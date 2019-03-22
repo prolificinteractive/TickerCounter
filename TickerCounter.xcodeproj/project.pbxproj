@@ -7,10 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		87F111F3224165C000BEB413 /* TickerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F111EC224165C000BEB413 /* TickerType.swift */; };
+		87F111F4224165C000BEB413 /* AnimationDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F111ED224165C000BEB413 /* AnimationDirection.swift */; };
+		87F111F5224165C000BEB413 /* ScrollDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F111EE224165C000BEB413 /* ScrollDirection.swift */; };
+		87F111F6224165C000BEB413 /* Int+DecimalSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F111F0224165C000BEB413 /* Int+DecimalSequence.swift */; };
+		87F111F7224165C000BEB413 /* String+IsDecimalDigit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F111F1224165C000BEB413 /* String+IsDecimalDigit.swift */; };
+		87F111F8224165C000BEB413 /* Array+NumberSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F111F2224165C000BEB413 /* Array+NumberSequence.swift */; };
+		87F111FA224165D600BEB413 /* TickerCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11C5B420377CFC00504CFB /* TickerCounter.swift */; };
 		DC11C59A20377B6B00504CFB /* TickerCounter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC11C59020377B6B00504CFB /* TickerCounter.framework */; };
 		DC11C5AE20377C6E00504CFB /* TickerCounter.h in Headers */ = {isa = PBXBuildFile; fileRef = DC11C5AC20377C6E00504CFB /* TickerCounter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC11C5B320377C7800504CFB /* TickerCounterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11C5B120377C7700504CFB /* TickerCounterTests.swift */; };
-		DC11C5B520377CFC00504CFB /* TickerCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11C5B420377CFC00504CFB /* TickerCounter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,6 +30,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		87F111EC224165C000BEB413 /* TickerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickerType.swift; sourceTree = "<group>"; };
+		87F111ED224165C000BEB413 /* AnimationDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationDirection.swift; sourceTree = "<group>"; };
+		87F111EE224165C000BEB413 /* ScrollDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollDirection.swift; sourceTree = "<group>"; };
+		87F111F0224165C000BEB413 /* Int+DecimalSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+DecimalSequence.swift"; sourceTree = "<group>"; };
+		87F111F1224165C000BEB413 /* String+IsDecimalDigit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+IsDecimalDigit.swift"; sourceTree = "<group>"; };
+		87F111F2224165C000BEB413 /* Array+NumberSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+NumberSequence.swift"; sourceTree = "<group>"; };
 		DC11C59020377B6B00504CFB /* TickerCounter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TickerCounter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC11C59920377B6B00504CFB /* TickerCounterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TickerCounterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC11C5AB20377C6E00504CFB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -52,6 +64,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		87F111EB224165C000BEB413 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				87F111EC224165C000BEB413 /* TickerType.swift */,
+				87F111ED224165C000BEB413 /* AnimationDirection.swift */,
+				87F111EE224165C000BEB413 /* ScrollDirection.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		87F111EF224165C000BEB413 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				87F111F0224165C000BEB413 /* Int+DecimalSequence.swift */,
+				87F111F1224165C000BEB413 /* String+IsDecimalDigit.swift */,
+				87F111F2224165C000BEB413 /* Array+NumberSequence.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		DC11C58620377B6B00504CFB = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +105,8 @@
 		DC11C5AA20377C6E00504CFB /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				87F111EB224165C000BEB413 /* Enums */,
+				87F111EF224165C000BEB413 /* Extensions */,
 				DC11C5B420377CFC00504CFB /* TickerCounter.swift */,
 				DC11C5AB20377C6E00504CFB /* Info.plist */,
 				DC11C5AC20377C6E00504CFB /* TickerCounter.h */,
@@ -199,6 +233,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87F111FA224165D600BEB413 /* TickerCounter.swift in Sources */,
+				87F111F4224165C000BEB413 /* AnimationDirection.swift in Sources */,
+				87F111F8224165C000BEB413 /* Array+NumberSequence.swift in Sources */,
+				87F111F3224165C000BEB413 /* TickerType.swift in Sources */,
+				87F111F6224165C000BEB413 /* Int+DecimalSequence.swift in Sources */,
+				87F111F7224165C000BEB413 /* String+IsDecimalDigit.swift in Sources */,
+				87F111F5224165C000BEB413 /* ScrollDirection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,7 +247,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC11C5B520377CFC00504CFB /* TickerCounter.swift in Sources */,
 				DC11C5B320377C7800504CFB /* TickerCounterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,6 +422,7 @@
 		DC11C5A820377B6C00504CFB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -395,6 +436,7 @@
 		DC11C5A920377B6C00504CFB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

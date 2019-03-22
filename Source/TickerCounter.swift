@@ -11,144 +11,239 @@ import UIKit
 /// Custom view class which shows an animated counter.
 public final class TickerCounter: UIView {
     
-    // MARK: Dependencies
+    // MARK: - Properties
     
-    /// The value for the ticker to display
+    // MARK: - Public API
+    
+    /// The ending value of the counter
     public var value: Int?
     
-    // MARK: Properties
+    /// The starting "value" of the ticker
+    public var placeholderValue: String?
     
-    /// The color of the ticker numbers
+    /// Set to true to use the placeholder
+    public var placeholderActive = true
+    
+    /// The alignment of the number within the frame
+    public var alignment: NSTextAlignment = .center
+    
+    /// The color of the ticker text
     public var textColor: UIColor = UIColor.black
     
-    /// The font of the ticker numbers
+    /// The font of the ticker text
     public var font: UIFont? = UIFont(name: "HelveticaNeue-Bold", size: 42)
     
     /// The duration of the animation from start to completion
-    public var duration: CFTimeInterval = 3
+    public var duration: CFTimeInterval = 1
     
-    /// The duration of the offset between the animation of each digit.
-    /// Set to 0 for all numbers to animate in sync
-    public var durationOffset: CFTimeInterval = 0.3
+    /// Controls whether the edges of the view fade to transparent
+    public var shouldFadeEdges = true
     
-    /// The number of numbers that will be scrolled through during the
-    /// duration of the animation.
-    public var density: Int = 5
+    /// Controls the horizontal direction of the animation
+    public var animationDirection: AnimationDirection = .rightToLeft
     
-    /// If the ticker is ascending. Set to false for descending.
-    public var isAscending: Bool = false
+    /// Controls the vertical direction of the animation
+    public var scrollDirection: ScrollDirection = .topToBottom
     
-    private var scrollLayers: [CAScrollLayer] = []
+    /// Controls the calculation mode of the keyframe animation
+    public var calculationMode: UIViewKeyframeAnimationOptions = .calculationModeLinear
+    
+    /// Controls the type of the ticker counter
+    public var type: TickerType = .independent
+    
+    // MARK: Private vars
+    
+    private var placeholderNumbers: [Int] {
+        guard let placeholderValue = placeholderValue else { return [] }
+        return placeholderValue.compactMap { Int(String($0)) }
+    }
+    private var scrollLayers: [UIView] = []
     private var numbersText: [String] = []
     private var scrollLabels: [UILabel] = []
+    private var placeholderLabel = UILabel()
+    private var gradientLayer = CAGradientLayer()
+    private lazy var numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
     
-    // MARK: Initialization
+    // MARK: - Initialization
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        clipsToBounds = true
+        if shouldFadeEdges {
+            addGradientMask()
+        }
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
-    // MARK: Public Methods
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        gradientLayer.frame = bounds
+    }
     
-    /// Start the animation of the ticker
+    // MARK: - Public Methods
+    
+    /// Sets the placeholder number or text that will appear before the animation of the ticker
+    ///
+    /// - Parameter text: The string you would like to use as a placeholder e.g. "OOO"
+    public func setPlaceholder(text: String?) {
+        guard let _ = text else {
+            placeholderValue = nil
+            placeholderLabel = UILabel()
+            return
+        }
+        placeholderValue = text
+        createPlaceholder()
+    }
+    
     public func startAnimation() {
         prepareAnimations()
-        createAnimations()
+        createBasicAnimation()
     }
     
-    /// Stop the animation of the ticker
-    public func stopAnimation() {
-        for scrollLayer in scrollLayers {
-            scrollLayer.removeAnimation(forKey: "AnimatedCounterViewAnimation")
-        }
-    }
+    // MARK: - Private Methods
     
-    // MARK: Private Methods
+    private func addGradientMask() {
+        gradientLayer.frame = bounds
+        gradientLayer.colors = [UIColor.clear.cgColor,
+                                UIColor.black.cgColor,
+                                UIColor.black.cgColor,
+                                UIColor.clear.cgColor]
+        gradientLayer.locations = [0, 0.1, 0.9, 1]
+        layer.mask = gradientLayer
+    }
     
     private func prepareAnimations() {
+        resetLayersAndAnimations()
+        createNumbersText()
+        createContentViews()
+        createSubviewsForScrollLayers()
+    }
+    
+    private func resetLayersAndAnimations() {
         for layer in scrollLayers {
-            layer.removeFromSuperlayer()
+            layer.removeFromSuperview()
         }
-        
         numbersText.removeAll()
         scrollLayers.removeAll()
         scrollLabels.removeAll()
-        
-        createNumbersText()
-        createScrollLayers()
     }
     
-    private func createAnimations() {
-        let digitDuration = duration - (Double(numbersText.count) * durationOffset)
-        var offset: CFTimeInterval = 0
-        
-        for scrollLayer in scrollLayers {
-            let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
-            animation.duration = digitDuration + offset
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-            
-            if let maxY = scrollLayer.sublayers?.last?.frame.origin.y {
-                animation.fromValue = isAscending ? -maxY : 0
-                animation.toValue = isAscending ? 0 : -maxY
-            }
-            
-            scrollLayer.add(animation, forKey: "AnimatedCounterViewAnimation")
-            offset += durationOffset
+    private func createPlaceholder() {
+        guard let placeholderValue = placeholderValue else { return }
+        placeholderLabel = createLabel(placeholderValue)
+        addSubview(placeholderLabel)
+        placeholderLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        placeholderLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        placeholderLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
+        placeholderLabel.textAlignment = alignment
+    }
+    
+    private func createBasicAnimation() {
+        placeholderLabel.isHidden = true
+        let digitViews: [UIView]
+        switch animationDirection {
+        case .leftToRight:
+            digitViews = scrollLayers
+        case .rightToLeft:
+            digitViews = scrollLayers.reversed()
+        }
+        UIView.animateKeyframes(withDuration: duration,
+                                delay: 0,
+                                options: calculationMode,
+                                animations: {
+                                    for (index, scrollLayer) in digitViews.enumerated() {
+                                        guard let lastframe = scrollLayer.subviews.last?.frame else { return }
+                                        UIView.addKeyframe(withRelativeStartTime: self.type.relativeStartTime(index: index, count: self.scrollLayers.count),
+                                                           relativeDuration: self.type.relativeDurationFor(index: index, count: self.scrollLayers.count),
+                                                           animations: {
+                                                            scrollLayer.frame.origin.y = -lastframe.origin.y
+                                        })
+                                    }
+        }) { (_) in
+            self.placeholderValue = String(self.value ?? 0)
         }
     }
     
     private func createNumbersText() {
-        guard let value = value else {
-            return
+        guard let value = value ,
+            let formatted = numberFormatter.string(from: NSNumber(value: value))
+            else {
+                return
         }
-        
-        numbersText = value.description.flatMap{ String($0) }
+        numbersText = formatted.description.compactMap { String($0) }
     }
     
-    private func createScrollLayers() {
-        let width = frame.width / CGFloat(numbersText.count)
-        let height = frame.height
+    private func createContentViews() {
+
+        guard let font = font else { return }
+        var characterSize = NSString(string: "0").size(withAttributes: [NSAttributedStringKey.font : font])
+        let stringWidth = characterSize.width * CGFloat(numbersText.count)
+        var xTracker = CGFloat()
         
-        for i in 0..<numbersText.count {
-            let scrollLayer = CAScrollLayer()
-            scrollLayer.frame = CGRect(x: CGFloat(i) * width, y: 0, width: width, height: height)
-            scrollLayers.append(scrollLayer)
-            layer.addSublayer(scrollLayer)
+        // Controls the x position of the frame of the scroll layer based on the alignment
+        switch alignment {
+        case .left:
+            xTracker = 0
+        case .right:
+            xTracker = bounds.width - stringWidth
+        case .center:
+            xTracker = bounds.midX - (stringWidth / 2)
+        case .justified:
+            xTracker = 0
+            characterSize.width = bounds.width / CGFloat(numbersText.count)
+        default:
+            xTracker = 0
         }
         
-        for i in 0..<numbersText.count {
-            createContentForLayer(scrollLayers[i], withNumberText: numbersText[i])
+        for number in numbersText {
+            let contentView = UIView()
+            let width = number.isDecimalDigit() ?
+                characterSize.width :
+                NSString(string: number).size(withAttributes: [NSAttributedStringKey.font : font]).width
+            contentView.frame = CGRect(x: xTracker, y: 0, width: width, height: frame.height)
+            xTracker += width
+            scrollLayers.append(contentView)
+            addSubview(contentView)
         }
     }
     
-    private func createContentForLayer(_ layer: CAScrollLayer, withNumberText numberText: String) {
-        guard let number = Int(numberText) else {
-            return
-        }
-        
+    private func createSubviewsForScrollLayers() {
+        guard numbersText.count == scrollLayers.count else { return }
         var scrollingNumbersText = [String]()
-        for i in 0...density {
-            let scrollNumber = (number + i) % 10
-            scrollingNumbersText.append(scrollNumber.description)
-        }
-        
-        scrollingNumbersText.append(numberText)
-        
-        if isAscending {
-            scrollingNumbersText.reverse()
-        }
-        
-        var height: CGFloat = 0
-        for numberText in scrollingNumbersText {
-            let scrollLabel = createLabel(numberText)
-            scrollLabel.frame = CGRect(x: 0, y: height, width: layer.frame.width, height: layer.frame.height)
-            layer.addSublayer(scrollLabel.layer)
-            scrollLabels.append(scrollLabel)
-            height = scrollLabel.frame.maxY
+        for (index, number) in numbersText.enumerated() {
+            let scrollLayer = scrollLayers[index]
+            var startingNumber = 0
+            var yPosition: CGFloat = 0
+            
+            if index < placeholderNumbers.endIndex {
+                startingNumber = placeholderNumbers[index]
+            }
+            if number.isDecimalDigit() {
+                guard let intNumber = Int(number) else { return }
+                scrollingNumbersText = startingNumber.ascendingDecimalSequenceTo(intNumber).stringArray()
+            } else {
+                scrollingNumbersText = [number]
+            }
+            
+            for numberText in scrollingNumbersText {
+                let numberLabel = createLabel(numberText)
+                numberLabel.frame = CGRect(x: 0, y: yPosition, width: scrollLayer.frame.width, height: scrollLayer.frame.height)
+                scrollLayer.addSubview(numberLabel)
+                scrollLabels.append(numberLabel)
+                if scrollDirection == .topToBottom {
+                    yPosition -= numberLabel.frame.height
+                } else {
+                    yPosition = numberLabel.frame.maxY
+                }
+            }
         }
     }
     
@@ -162,3 +257,4 @@ public final class TickerCounter: UIView {
     }
     
 }
+
