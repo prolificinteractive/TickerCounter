@@ -11,64 +11,46 @@ import TickerCounter
 
 class DemoViewController: UIViewController {
 
-    @IBOutlet private weak var totalRidesCounter: TickerCounter!
-    @IBOutlet private weak var secondsCounter: TickerCounter!
-    @IBOutlet private weak var likeCounter: TickerCounter!
+    @IBOutlet private weak var totalSavedCounter: TickerCounter!
+    @IBOutlet private weak var gradientView: UIView!
     
-    private var likeCount = 23000
-    private var rideCount = 235
-    private var secondsCount = 259200
+    private var gradientLayer = CAGradientLayer()
+    private var likeCount = 23000.00
+    private var totalSavedAmount = 41085.15
+    private var secondsCount = 259200.00
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTotalRidesCounter()
-        setupSecondsCounter()
-        setupLikeCounter()
+        setupGradient()
+        setupTotalSavedCounter()
         setupTimer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        totalRidesCounter.startAnimation()
-        secondsCounter.startAnimation()
+        totalSavedCounter.startAnimation()
     }
     
-    private func setupTotalRidesCounter() {
-        totalRidesCounter.font = UIFont.systemFont(ofSize: 120)
-        totalRidesCounter.setPlaceholder(text: "000")
-        totalRidesCounter.textColor = .black
-        totalRidesCounter.alignment = .center
-        totalRidesCounter.value = rideCount
-        totalRidesCounter.animationDirection = .rightToLeft
-        totalRidesCounter.calculationMode = .calculationModeLinear
-        totalRidesCounter.type = .independent
-        totalRidesCounter.duration = 1.5
+    private func setupGradient() {
+        gradientLayer.colors = [
+            UIColor(red: 0.18, green: 0.19, blue: 0.57, alpha:1.0).cgColor,
+            UIColor(red: 0, green: 0, blue: 1.00, alpha:1.0).cgColor
+        ]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        gradientLayer.frame = gradientView.bounds
+        gradientView.layer.addSublayer(gradientLayer)
     }
-    
-    private func setupSecondsCounter() {
-        secondsCounter.font = UIFont.systemFont(ofSize: 60)
-        secondsCounter.setPlaceholder(text: "000000")
-        secondsCounter.textColor = .black
-        secondsCounter.alignment = .center
-        secondsCounter.value = secondsCount
-        secondsCounter.scrollDirection = .bottomToTop
-        secondsCounter.animationDirection = .rightToLeft
-        secondsCounter.calculationMode = .calculationModeLinear
-        secondsCounter.type = .even
-        secondsCounter.duration = 1
-    }
-    
-    private func setupLikeCounter() {
-        likeCounter.font = UIFont.systemFont(ofSize: 15)
-        likeCounter.setPlaceholder(text: "000")
-        likeCounter.textColor = .black
-        likeCounter.alignment = .center
-        likeCounter.value = likeCount
-        likeCounter.scrollDirection = .topToBottom
-        likeCounter.animationDirection = .rightToLeft
-        likeCounter.calculationMode = .calculationModeLinear
-        likeCounter.type = .even
-        likeCounter.duration = 1
+    private func setupTotalSavedCounter() {
+        totalSavedCounter.font = UIFont.systemFont(ofSize: 50)
+        totalSavedCounter.textColor = .white
+        totalSavedCounter.alignment = .center
+        totalSavedCounter.value = totalSavedAmount
+        totalSavedCounter.animationDirection = .rightToLeft
+        totalSavedCounter.scrollDirection = .topToBottom
+        totalSavedCounter.calculationMode = .calculationModeLinear
+        totalSavedCounter.type = .cascade
+        totalSavedCounter.duration = 1.0
     }
     
     private func setupTimer() {
@@ -78,15 +60,7 @@ class DemoViewController: UIViewController {
     }
     
     private func updateCounters() {
-        likeCount += Int.random(in: 1...10)
-        secondsCount -= 1
-        likeCounter.value = likeCount
-        likeCounter.startAnimation()
-        secondsCounter.value = secondsCount
-        secondsCounter.startAnimation()
-        rideCount = Int.random(in: 100..<1000)
-        totalRidesCounter.value = rideCount
-        totalRidesCounter.startAnimation()
+
     }
 
 }

@@ -16,7 +16,7 @@ public final class TickerCounter: UIView {
     // MARK: - Public API
     
     /// The ending value of the counter
-    public var value: Int?
+    public var value: Double?
     
     /// The starting "value" of the ticker
     public var placeholderValue: String?
@@ -49,7 +49,9 @@ public final class TickerCounter: UIView {
     public var calculationMode: UIViewKeyframeAnimationOptions = .calculationModeLinear
     
     /// Controls the type of the ticker counter
-    public var type: TickerType = .independent
+    public var type: TickerType = .cascade
+    
+    public var numberType: NumberType = .currency
     
     // MARK: Private vars
     
@@ -58,13 +60,21 @@ public final class TickerCounter: UIView {
         return placeholderValue.compactMap { Int(String($0)) }
     }
     private var scrollLayers: [UIView] = []
+    private var valueString: String {
+        return value?.description ?? ""
+    }
     private var numbersText: [String] = []
     private var scrollLabels: [UILabel] = []
     private var placeholderLabel = UILabel()
     private var gradientLayer = CAGradientLayer()
     private lazy var numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
+        switch numberType {
+        case .currency:
+            formatter.numberStyle = .currency
+        default:
+            formatter.numberStyle = .decimal
+        }
         return formatter
     }()
     
@@ -182,12 +192,11 @@ public final class TickerCounter: UIView {
     }
     
     private func createContentViews() {
-
         guard let font = font else { return }
         var characterSize = NSString(string: "0").size(withAttributes: [NSAttributedStringKey.font : font])
-        let stringWidth = characterSize.width * CGFloat(numbersText.count)
+        var stringWidth = generateMonospacedStringWidth(characterSize: characterSize)
         var xTracker = CGFloat()
-        
+       
         // Controls the x position of the frame of the scroll layer based on the alignment
         switch alignment {
         case .left:
@@ -245,6 +254,18 @@ public final class TickerCounter: UIView {
                 }
             }
         }
+    }
+    
+    private func generateMonospacedStringWidth(characterSize: CGSize) -> CGFloat {
+        var stringWidth = CGFloat()
+        for number in numbersText {
+            if number.isDecimalDigit() {
+                stringWidth += characterSize.width
+            } else {
+                stringWidth += NSString(string: number).size(withAttributes: [NSAttributedStringKey.font : font]).width
+            }
+        }
+        return stringWidth
     }
     
     private func createLabel(_ text: String) -> UILabel {
