@@ -194,7 +194,7 @@ public final class TickerCounter: UIView {
     private func createContentViews() {
         guard let font = font else { return }
         var characterSize = NSString(string: "0").size(withAttributes: [NSAttributedStringKey.font : font])
-        let stringWidth = generateMonospacedStringWidth(characterSize: characterSize)
+        let stringWidth = valueString.monospacedStringWidth(attributes: [.font: font])
         var xTracker = CGFloat()
        
         // Controls the x position of the frame of the scroll layer based on the alignment
@@ -255,18 +255,6 @@ public final class TickerCounter: UIView {
                 }
             }
         }
-    }
-    
-    private func generateMonospacedStringWidth(characterSize: CGSize) -> CGFloat {
-        var stringWidth = CGFloat()
-        for number in valueArray {
-            if number.isDecimalDigit() {
-                stringWidth += characterSize.width
-            } else {
-                stringWidth += NSString(string: number).size(withAttributes: [.font : font as Any]).width
-            }
-        }
-        return stringWidth
     }
     
     private func createLabel(_ text: String) -> UILabel {
