@@ -33,6 +33,60 @@
                                     <constraint firstAttribute="height" constant="85" id="fNk-Cb-VoB"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aPF-zU-BPl" userLabel="Credit Card Container" customClass="RoundedCornerShadowView" customModule="TickerCounterDemo" customModuleProvider="target">
+                                <rect key="frame" x="20" y="219" width="157.5" height="125"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z8I-v4-ofh" customClass="TickerCounter" customModule="TickerCounter">
+                                        <rect key="frame" x="16" y="42.5" width="126" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="4A1-1B-I8X"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="z8I-v4-ofh" firstAttribute="centerY" secondItem="aPF-zU-BPl" secondAttribute="centerY" id="PfH-0I-JRd"/>
+                                    <constraint firstItem="z8I-v4-ofh" firstAttribute="width" secondItem="aPF-zU-BPl" secondAttribute="width" multiplier="0.8" id="Rou-HG-ae5"/>
+                                    <constraint firstAttribute="height" constant="125" id="e0w-xr-esj"/>
+                                    <constraint firstItem="z8I-v4-ofh" firstAttribute="centerX" secondItem="aPF-zU-BPl" secondAttribute="centerX" id="yen-Mt-lL4"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qL7-07-k0M" userLabel="Social Container" customClass="RoundedCornerShadowView" customModule="TickerCounterDemo" customModuleProvider="target">
+                                <rect key="frame" x="197.5" y="219" width="157.5" height="125"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hl4-Fx-XCv" customClass="TickerCounter" customModule="TickerCounter">
+                                        <rect key="frame" x="16" y="0.0" width="126" height="125"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="hl4-Fx-XCv" firstAttribute="centerY" secondItem="qL7-07-k0M" secondAttribute="centerY" id="6JJ-Ng-ej4"/>
+                                    <constraint firstAttribute="bottom" secondItem="hl4-Fx-XCv" secondAttribute="bottom" id="9N9-7S-of3"/>
+                                    <constraint firstItem="hl4-Fx-XCv" firstAttribute="top" secondItem="qL7-07-k0M" secondAttribute="top" id="A5f-th-dbC"/>
+                                    <constraint firstItem="hl4-Fx-XCv" firstAttribute="width" secondItem="qL7-07-k0M" secondAttribute="width" multiplier="0.8" id="Eff-Ke-5MX"/>
+                                    <constraint firstItem="hl4-Fx-XCv" firstAttribute="centerX" secondItem="qL7-07-k0M" secondAttribute="centerX" id="Lkt-Pj-l78"/>
+                                    <constraint firstAttribute="height" constant="125" id="sgR-2W-vCd"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P7n-Du-LHg" customClass="RoundedCornerShadowView" customModule="TickerCounterDemo" customModuleProvider="target">
+                                <rect key="frame" x="20" y="364" width="335" height="50"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="emm-sD-whA" customClass="TickerCounter" customModule="TickerCounter">
+                                        <rect key="frame" x="10" y="5" width="315" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="emm-sD-whA" secondAttribute="trailing" constant="10" id="BkH-66-IvJ"/>
+                                    <constraint firstItem="emm-sD-whA" firstAttribute="leading" secondItem="P7n-Du-LHg" secondAttribute="leading" constant="10" id="OTL-eG-BXc"/>
+                                    <constraint firstAttribute="bottom" secondItem="emm-sD-whA" secondAttribute="bottom" constant="5" id="TkO-Pl-ZJW"/>
+                                    <constraint firstAttribute="height" constant="50" id="fOc-8H-ln1"/>
+                                    <constraint firstItem="emm-sD-whA" firstAttribute="top" secondItem="P7n-Du-LHg" secondAttribute="top" constant="5" id="fdv-re-dYU"/>
+                                </constraints>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TOTAL SAVED THIS YEAR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AWh-5b-wYc">
                                 <rect key="frame" x="-6" y="163" width="387" height="21"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
@@ -53,11 +107,20 @@
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="NKS-lr-GCI" firstAttribute="centerX" secondItem="qrb-k1-59s" secondAttribute="centerX" id="0DJ-6p-f0L"/>
+                            <constraint firstItem="P7n-Du-LHg" firstAttribute="leading" secondItem="Ewe-pI-cp6" secondAttribute="leading" constant="20" id="2mm-I4-Clt"/>
                             <constraint firstItem="AWh-5b-wYc" firstAttribute="centerX" secondItem="qrb-k1-59s" secondAttribute="centerX" id="4nD-Ua-lFL"/>
+                            <constraint firstItem="aPF-zU-BPl" firstAttribute="trailing" secondItem="Ewe-pI-cp6" secondAttribute="centerX" constant="-10" id="A5b-Xj-QAy"/>
+                            <constraint firstItem="aPF-zU-BPl" firstAttribute="leading" secondItem="Ewe-pI-cp6" secondAttribute="leading" constant="20" id="Ebt-By-s3F"/>
                             <constraint firstItem="Ewe-pI-cp6" firstAttribute="trailing" secondItem="fv3-1o-IbK" secondAttribute="trailing" id="Gv4-F6-fY4"/>
+                            <constraint firstItem="aPF-zU-BPl" firstAttribute="centerY" secondItem="fv3-1o-IbK" secondAttribute="bottom" id="Hpm-zP-E41"/>
+                            <constraint firstItem="qL7-07-k0M" firstAttribute="centerY" secondItem="fv3-1o-IbK" secondAttribute="bottom" id="VdS-WW-10d"/>
                             <constraint firstItem="fv3-1o-IbK" firstAttribute="leading" secondItem="Ewe-pI-cp6" secondAttribute="leading" id="VtZ-Bi-P8i"/>
                             <constraint firstItem="fv3-1o-IbK" firstAttribute="top" secondItem="qrb-k1-59s" secondAttribute="top" id="ebg-Mg-f0K"/>
+                            <constraint firstItem="P7n-Du-LHg" firstAttribute="top" secondItem="aPF-zU-BPl" secondAttribute="bottom" constant="20" id="fZ4-60-lpW"/>
+                            <constraint firstItem="qL7-07-k0M" firstAttribute="leading" secondItem="Ewe-pI-cp6" secondAttribute="centerX" constant="10" id="iJu-xO-eBJ"/>
+                            <constraint firstItem="Ewe-pI-cp6" firstAttribute="trailing" secondItem="P7n-Du-LHg" secondAttribute="trailing" constant="20" id="jQE-an-uN6"/>
                             <constraint firstItem="EKd-ub-nuM" firstAttribute="centerY" secondItem="fv3-1o-IbK" secondAttribute="centerY" constant="-20.25" id="k6g-i4-vMt"/>
+                            <constraint firstItem="Ewe-pI-cp6" firstAttribute="trailing" secondItem="qL7-07-k0M" secondAttribute="trailing" constant="20" id="qsR-U0-d9v"/>
                             <constraint firstItem="AWh-5b-wYc" firstAttribute="top" secondItem="EKd-ub-nuM" secondAttribute="bottom" id="uIP-Vq-FVG"/>
                             <constraint firstItem="AWh-5b-wYc" firstAttribute="width" secondItem="EKd-ub-nuM" secondAttribute="width" id="urq-Fk-9FF"/>
                             <constraint firstItem="Ewe-pI-cp6" firstAttribute="bottom" secondItem="NKS-lr-GCI" secondAttribute="bottom" constant="20" id="yC2-Xl-G07"/>
@@ -66,7 +129,10 @@
                         <viewLayoutGuide key="safeArea" id="Ewe-pI-cp6"/>
                     </view>
                     <connections>
+                        <outlet property="creditCounter" destination="z8I-v4-ofh" id="Dc8-aC-Gno"/>
                         <outlet property="gradientView" destination="fv3-1o-IbK" id="WxD-MH-r23"/>
+                        <outlet property="likesCounter" destination="hl4-Fx-XCv" id="xbV-bY-rVa"/>
+                        <outlet property="longCounter" destination="emm-sD-whA" id="3cF-nI-2a4"/>
                         <outlet property="totalSavedCounter" destination="EKd-ub-nuM" id="H9y-A1-xb7"/>
                     </connections>
                 </viewController>

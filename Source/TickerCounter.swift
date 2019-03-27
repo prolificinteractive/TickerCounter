@@ -53,7 +53,7 @@ public final class TickerCounter: UIView {
     }
     
     /// The type of number for display in the TickerCounter
-    public var numberType: NumberType = .currency
+    public var numberType: NumberFormat = .currency
     
     // MARK: Private vars
     private var placeholderArray: [String] {
