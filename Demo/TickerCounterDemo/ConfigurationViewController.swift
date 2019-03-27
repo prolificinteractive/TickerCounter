@@ -20,12 +20,12 @@ class ConfigurationViewController: UIViewController {
     
     //MARK: Private Vars
     
-    private var randomValue: Int {
-        let random = Int.random(in: 100000...999999)
+    private var randomValue: Double {
+        let random = Double.random(in: 100000...999999)
         lastValue = random
         return random
     }
-    private var lastValue = 0
+    private var lastValue: Double = 0
     
     //MARK: - Lifecycle
     

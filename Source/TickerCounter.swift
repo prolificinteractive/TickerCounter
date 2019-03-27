@@ -16,7 +16,7 @@ public final class TickerCounter: UIView {
     // MARK: - Public API
     
     /// The ending value of the counter
-    public var value: Int?
+    public var value: Double?
     
     /// The starting "value" of the ticker
     public var placeholderValue: String?
@@ -49,22 +49,32 @@ public final class TickerCounter: UIView {
     public var calculationMode: UIViewKeyframeAnimationOptions = .calculationModeLinear
     
     /// Controls the type of the ticker counter
-    public var type: TickerType = .independent
+    public var type: TickerType = .cascade
+    
+    /// The type of number for display in the TickerCounter
+    public var numberType: NumberType = .currency
     
     // MARK: Private vars
-    
-    private var placeholderNumbers: [Int] {
-        guard let placeholderValue = placeholderValue else { return [] }
-        return placeholderValue.compactMap { Int(String($0)) }
+    private var placeholderArray: [String] {
+        return placeholderValue?.compactMap { String($0) } ?? []
     }
-    private var scrollLayers: [UIView] = []
-    private var numbersText: [String] = []
-    private var scrollLabels: [UILabel] = []
+    private var scrollLayers = [UIView]()
+    private var valueString: String {
+        guard let value = value else { return "" }
+        return numberFormatter.string(from: NSNumber(value: value)) ?? ""
+    }
+    private var valueArray = [String]()
+    private var scrollLabels = [UILabel]()
     private var placeholderLabel = UILabel()
     private var gradientLayer = CAGradientLayer()
     private lazy var numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
+        switch numberType {
+        case .currency:
+            formatter.numberStyle = .currency
+        default:
+            formatter.numberStyle = .decimal
+        }
         return formatter
     }()
     
@@ -121,7 +131,7 @@ public final class TickerCounter: UIView {
     
     private func prepareAnimations() {
         resetLayersAndAnimations()
-        createNumbersText()
+        createValueArray()
         createContentViews()
         createSubviewsForScrollLayers()
     }
@@ -130,7 +140,7 @@ public final class TickerCounter: UIView {
         for layer in scrollLayers {
             layer.removeFromSuperview()
         }
-        numbersText.removeAll()
+        valueArray.removeAll()
         scrollLayers.removeAll()
         scrollLabels.removeAll()
     }
@@ -168,26 +178,25 @@ public final class TickerCounter: UIView {
                                         })
                                     }
         }) { (_) in
-            self.placeholderValue = String(self.value ?? 0)
+            self.placeholderValue = self.numberFormatter.string(from: NSNumber(value: self.value ?? 0))
         }
     }
     
-    private func createNumbersText() {
+    private func createValueArray() {
         guard let value = value ,
             let formatted = numberFormatter.string(from: NSNumber(value: value))
             else {
                 return
         }
-        numbersText = formatted.description.compactMap { String($0) }
+        valueArray = formatted.compactMap { String($0) }
     }
     
     private func createContentViews() {
-
         guard let font = font else { return }
         var characterSize = NSString(string: "0").size(withAttributes: [NSAttributedStringKey.font : font])
-        let stringWidth = characterSize.width * CGFloat(numbersText.count)
+        let stringWidth = valueString.monospacedStringWidth(attributes: [.font: font])
         var xTracker = CGFloat()
-        
+       
         // Controls the x position of the frame of the scroll layer based on the alignment
         switch alignment {
         case .left:
@@ -198,12 +207,12 @@ public final class TickerCounter: UIView {
             xTracker = bounds.midX - (stringWidth / 2)
         case .justified:
             xTracker = 0
-            characterSize.width = bounds.width / CGFloat(numbersText.count)
+            characterSize.width = bounds.width / CGFloat(valueArray.count)
         default:
             xTracker = 0
         }
         
-        for number in numbersText {
+        for number in valueArray {
             let contentView = UIView()
             let width = number.isDecimalDigit() ?
                 characterSize.width :
@@ -216,19 +225,20 @@ public final class TickerCounter: UIView {
     }
     
     private func createSubviewsForScrollLayers() {
-        guard numbersText.count == scrollLayers.count else { return }
+        guard valueArray.count == scrollLayers.count else { return }
         var scrollingNumbersText = [String]()
-        for (index, number) in numbersText.enumerated() {
+        for (index, number) in valueArray.enumerated() {
             let scrollLayer = scrollLayers[index]
-            var startingNumber = 0
+            var startingValue = String()
             var yPosition: CGFloat = 0
             
-            if index < placeholderNumbers.endIndex {
-                startingNumber = placeholderNumbers[index]
+            if index < placeholderArray.endIndex {
+                startingValue = placeholderArray[index]
             }
-            if number.isDecimalDigit() {
-                guard let intNumber = Int(number) else { return }
-                scrollingNumbersText = startingNumber.ascendingDecimalSequenceTo(intNumber).stringArray()
+            if number.isDecimalDigit() && startingValue.isDecimalDigit() {
+                guard let destinationNumber = Int(number) else { return }
+                guard let startingNumber = Int(startingValue) else { return }
+                scrollingNumbersText = startingNumber.ascendingDecimalSequenceTo(destinationNumber).stringArray()
             } else {
                 scrollingNumbersText = [number]
             }
