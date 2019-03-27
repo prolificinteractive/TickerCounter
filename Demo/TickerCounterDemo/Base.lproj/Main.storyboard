@@ -26,17 +26,24 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKd-ub-nuM" customClass="TickerCounter" customModule="TickerCounter">
-                                <rect key="frame" x="43.5" y="78" width="288" height="125"/>
+                                <rect key="frame" x="-6" y="78" width="387" height="85"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="EKd-ub-nuM" secondAttribute="height" multiplier="295:128" id="NBQ-tU-Yqb"/>
-                                    <constraint firstAttribute="height" constant="125" id="fNk-Cb-VoB"/>
+                                    <constraint firstAttribute="width" secondItem="EKd-ub-nuM" secondAttribute="height" multiplier="295:85" constant="92.099999999999994" id="NBQ-tU-Yqb"/>
+                                    <constraint firstAttribute="height" constant="85" id="fNk-Cb-VoB"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NKS-lr-GCI">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TOTAL SAVED THIS YEAR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AWh-5b-wYc">
+                                <rect key="frame" x="-6" y="163" width="387" height="21"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NKS-lr-GCI">
                                 <rect key="frame" x="160" y="617" width="55" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="settings"/>
+                                <state key="normal" title="settings">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <segue destination="BYZ-38-t0r" kind="showDetail" id="090-SS-3FG"/>
                                 </connections>
@@ -45,10 +52,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="NKS-lr-GCI" firstAttribute="centerX" secondItem="qrb-k1-59s" secondAttribute="centerX" id="0DJ-6p-f0L"/>
+                            <constraint firstItem="AWh-5b-wYc" firstAttribute="centerX" secondItem="qrb-k1-59s" secondAttribute="centerX" id="4nD-Ua-lFL"/>
                             <constraint firstItem="Ewe-pI-cp6" firstAttribute="trailing" secondItem="fv3-1o-IbK" secondAttribute="trailing" id="Gv4-F6-fY4"/>
                             <constraint firstItem="fv3-1o-IbK" firstAttribute="leading" secondItem="Ewe-pI-cp6" secondAttribute="leading" id="VtZ-Bi-P8i"/>
                             <constraint firstItem="fv3-1o-IbK" firstAttribute="top" secondItem="qrb-k1-59s" secondAttribute="top" id="ebg-Mg-f0K"/>
-                            <constraint firstItem="EKd-ub-nuM" firstAttribute="centerY" secondItem="fv3-1o-IbK" secondAttribute="centerY" id="k6g-i4-vMt"/>
+                            <constraint firstItem="EKd-ub-nuM" firstAttribute="centerY" secondItem="fv3-1o-IbK" secondAttribute="centerY" constant="-20.25" id="k6g-i4-vMt"/>
+                            <constraint firstItem="AWh-5b-wYc" firstAttribute="top" secondItem="EKd-ub-nuM" secondAttribute="bottom" id="uIP-Vq-FVG"/>
+                            <constraint firstItem="AWh-5b-wYc" firstAttribute="width" secondItem="EKd-ub-nuM" secondAttribute="width" id="urq-Fk-9FF"/>
+                            <constraint firstItem="Ewe-pI-cp6" firstAttribute="bottom" secondItem="NKS-lr-GCI" secondAttribute="bottom" constant="20" id="yC2-Xl-G07"/>
                             <constraint firstItem="EKd-ub-nuM" firstAttribute="centerX" secondItem="fv3-1o-IbK" secondAttribute="centerX" id="z5s-By-0Sh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ewe-pI-cp6"/>

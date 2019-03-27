@@ -60,7 +60,10 @@ class DemoViewController: UIViewController {
     }
     
     private func updateCounters() {
-
+        totalSavedCounter.calculationMode = .calculationModePaced
+        totalSavedAmount += Double.random(in: 0...0.99)
+        totalSavedCounter.value = totalSavedAmount
+        totalSavedCounter.startAnimation()
     }
 
 }
