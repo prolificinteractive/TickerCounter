@@ -57,23 +57,6 @@ class ConfigurationViewController: UIViewController {
         tickerCounter.type = selection
     }
     
-    @IBAction private func calculationSegmentDidTouch(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            tickerCounter.calculationMode = .calculationModeLinear
-        case 1:
-            tickerCounter.calculationMode = .calculationModeCubic
-        case 2:
-            tickerCounter.calculationMode = .calculationModeCubicPaced
-        case 3:
-            tickerCounter.calculationMode = .calculationModeDiscrete
-        case 4:
-            tickerCounter.calculationMode = .calculationModePaced
-        default:
-            return
-        }
-    }
-    
     @IBAction private func alignmentControlDidTouch(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:

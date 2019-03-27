@@ -48,8 +48,7 @@ class DemoViewController: UIViewController {
         totalSavedCounter.value = totalSavedAmount
         totalSavedCounter.animationDirection = .rightToLeft
         totalSavedCounter.scrollDirection = .topToBottom
-        totalSavedCounter.calculationMode = .calculationModeLinear
-        totalSavedCounter.type = .cascade
+        totalSavedCounter.type = .even
         totalSavedCounter.duration = 1.0
     }
     
@@ -60,7 +59,6 @@ class DemoViewController: UIViewController {
     }
     
     private func updateCounters() {
-        totalSavedCounter.calculationMode = .calculationModePaced
         totalSavedAmount += Double.random(in: 0...0.99)
         totalSavedCounter.value = totalSavedAmount
         totalSavedCounter.startAnimation()

@@ -45,11 +45,12 @@ public final class TickerCounter: UIView {
     /// Controls the vertical direction of the animation
     public var scrollDirection: ScrollDirection = .topToBottom
     
-    /// Controls the calculation mode of the keyframe animation
-    public var calculationMode: UIViewKeyframeAnimationOptions = .calculationModeLinear
-    
     /// Controls the type of the ticker counter
-    public var type: TickerType = .cascade
+    public var type: TickerType = .cascade {
+        didSet {
+            print(type)
+        }
+    }
     
     /// The type of number for display in the TickerCounter
     public var numberType: NumberType = .currency
@@ -167,7 +168,7 @@ public final class TickerCounter: UIView {
         }
         UIView.animateKeyframes(withDuration: duration,
                                 delay: 0,
-                                options: calculationMode,
+                                options: type.calculationMode(),
                                 animations: {
                                     for (index, scrollLayer) in digitViews.enumerated() {
                                         guard let lastframe = scrollLayer.subviews.last?.frame else { return }

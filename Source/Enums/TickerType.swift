@@ -18,6 +18,17 @@ public enum TickerType: Int {
     case cascade
     case even
     
+    func calculationMode() -> UIViewKeyframeAnimationOptions {
+        switch self {
+        case .independent:
+            return .calculationModeLinear
+        case .cascade:
+            return .calculationModeLinear
+        case .even:
+            return .calculationModePaced
+        }
+    }
+    
     func relativeStartTime(index: Int, count: Int) -> Double {
         switch self {
         case .cascade:
