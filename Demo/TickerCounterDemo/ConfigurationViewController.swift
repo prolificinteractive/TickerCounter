@@ -70,26 +70,37 @@ class ConfigurationViewController: UIViewController {
         default:
             return
         }
-        tickerCounter.alignment = .center
     }
     
     @IBAction private func shuffleDidTouchUpInside(_ sender: Any) {
         shuffleValue()
     }
     
+    @IBAction private func plusOneDidTouchUpInside(_ sender: Any) {
+        incrementByOne()
+    }
+    
     
     //MARK: - Private funcs
+    
     private func shuffleValue() {
         tickerCounter.value = randomValue
         tickerCounter.startAnimation()
     }
     
+    private func incrementByOne() {
+        lastValue += 1
+        tickerCounter.value = lastValue
+        tickerCounter.startAnimation()
+    }
+    
     private func configureTickerCounter() {
         tickerCounter.textColor = .black
-        tickerCounter.font = UIFont.boldSystemFont(ofSize: 75)
+        tickerCounter.font = UIFont.boldSystemFont(ofSize: 50)
         tickerCounter.alignment = .center
         tickerCounter.duration = 0.75
-        tickerCounter.setPlaceholder(text: "000,000")
+        tickerCounter.setPlaceholder(text: "000000")
+        tickerCounter.numberFormat = .none
     }
     
 }

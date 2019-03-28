@@ -70,7 +70,7 @@ class DemoViewController: UIViewController {
         creditCounter.font = UIFont.systemFont(ofSize: 30)
         creditCounter.textColor = .blue
         creditCounter.alignment = .center
-        creditCounter.numberType = .decimal
+        creditCounter.numberFormat = .decimal
         creditCounter.placeholderValue = "00,000"
         creditCounter.value = creditAmount
         creditCounter.animationDirection = .rightToLeft
@@ -83,7 +83,7 @@ class DemoViewController: UIViewController {
         likesCounter.font = UIFont.systemFont(ofSize: 30)
         likesCounter.textColor = .blue
         likesCounter.alignment = .center
-        likesCounter.numberType = .decimal
+        likesCounter.numberFormat = .decimal
         likesCounter.placeholderValue = "00,000"
         likesCounter.value = creditAmount
         likesCounter.animationDirection = .leftToRight
@@ -95,13 +95,14 @@ class DemoViewController: UIViewController {
     private func setupLongCounter() {
         longCounter.font = UIFont.systemFont(ofSize: 30)
         longCounter.textColor = .blue
-        longCounter.alignment = .center
-        longCounter.numberType = .decimal
+        longCounter.alignment = .justified
+        longCounter.numberFormat = .decimal
         longCounter.value = longNumber
         longCounter.animationDirection = .leftToRight
         longCounter.scrollDirection = .bottomToTop
         longCounter.type = .independent
         longCounter.duration = 2
+        longCounter.numberFormat = .none
     }
     
     private func setupTimer() {

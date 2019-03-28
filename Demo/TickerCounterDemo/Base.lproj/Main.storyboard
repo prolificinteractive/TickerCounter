@@ -172,6 +172,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="26P-gA-5Ok">
                                                 <rect key="frame" x="167.5" y="0.0" width="167.5" height="30"/>
                                                 <state key="normal" title="Plus one"/>
+                                                <connections>
+                                                    <action selector="plusOneDidTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o8b-Da-RoA"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
