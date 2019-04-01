@@ -2,11 +2,12 @@
 
 ## Description
 
-A counter with a ticker animation.
+A counter with a customizable ticker animation.
 
 ## Requirements
 
-* iOS 9.0+
+* iOS 10.0+
+* Swift 4.2 +
 
 ## Installation
 
@@ -14,22 +15,38 @@ A counter with a ticker animation.
 TickerCounter is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your `Podfile`:
 
-
 ```ruby
-pod 'TickerCounter', :git => 'https://github.com/ProlificInteractive/TickerCounter.git', :tag => '0.1.0'
+pod 'TickerCounter', :git => 'https://github.com/ProlificInteractive/TickerCounter.git', :tag => '1.0.0'
 ```
 
 ## Usage
 
-Create a `TickerCounter` instance and tell it to animate:
+Create a `TickerCounter` instance programmatically or in Interface Builder
+
+Configure the `TickerCounter` instance with the desired options. To get a feel for the options, open and run the demo app where you'll be able to play with the different settings
 
 ```swift
-let tickerCounter = TickerCounter(frame: CGRect(x: 0, y: 100, width: view.frame.width, height: 65))
-tickerCounter.value = 12345
-view.addSubview(tickerCounter)
+tickerCounter.textColor = .black
+tickerCounter.font = UIFont.boldSystemFont(ofSize: 50)
+tickerCounter.alignment = .center
+tickerCounter.duration = 0.75
+tickerCounter.setPlaceholder(text: "000000")
+tickerCounter.numberFormat = .currency
+```
+Set the value 
 
+```
+tickerCounter.value = 99999
+```
+
+Start the animation when desired
+
+```swift
 tickerCounter.startAnimation()
 ```
+
+Change the va
+
 
 ## Contributing to TickerCounter
 
