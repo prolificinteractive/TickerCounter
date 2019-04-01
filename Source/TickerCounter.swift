@@ -56,6 +56,7 @@ public final class TickerCounter: UIView {
     public var numberFormat: NumberFormat = .currency
     
     // MARK: Private vars
+    
     private var placeholderArray: [String] {
         return placeholderValue?.compactMap { String($0) } ?? []
     }
@@ -81,7 +82,7 @@ public final class TickerCounter: UIView {
         return formatter
     }()
     
-    // MARK: - Initialization
+    // MARK: - Lifecycle
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -117,7 +118,7 @@ public final class TickerCounter: UIView {
     
     public func startAnimation() {
         prepareAnimations()
-        createBasicAnimation()
+        createAnimations()
     }
     
     // MARK: - Private Methods
@@ -140,9 +141,7 @@ public final class TickerCounter: UIView {
     }
     
     private func resetLayersAndAnimations() {
-        for layer in contentViews {
-            layer.removeFromSuperview()
-        }
+        contentViews.forEach { $0.removeFromSuperview() }
         valueArray.removeAll()
         contentViews.removeAll()
         scrollLabels.removeAll()
@@ -159,7 +158,7 @@ public final class TickerCounter: UIView {
         placeholderLabel.textAlignment = alignment
     }
     
-    private func createBasicAnimation() {
+    private func createAnimations() {
         placeholderLabel.isHidden = true
         let digitViews: [UIView]
         switch animationDirection {
@@ -174,8 +173,10 @@ public final class TickerCounter: UIView {
                                 animations: {
                                     for (index, scrollLayer) in digitViews.enumerated() {
                                         guard let lastframe = scrollLayer.subviews.last?.frame else { return }
-                                        UIView.addKeyframe(withRelativeStartTime: self.type.relativeStartTime(index: index, count: self.contentViews.count),
-                                                           relativeDuration: self.type.relativeDurationFor(index: index, count: self.contentViews.count),
+                                        UIView.addKeyframe(withRelativeStartTime: self.type.relativeStartTime(index: index,
+                                                                                                              count: self.contentViews.count),
+                                                           relativeDuration: self.type.relativeDurationFor(index: index,
+                                                                                                           count: self.contentViews.count),
                                                            animations: {
                                                             scrollLayer.frame.origin.y = -lastframe.origin.y
                                         })
@@ -219,7 +220,7 @@ public final class TickerCounter: UIView {
             let contentView = UIView()
             let width = valueString.isDecimalDigit() ?
                 characterSize.width :
-                NSString(string: valueString).size(withAttributes: [NSAttributedStringKey.font : font]).width
+                NSString(string: valueString).size(withAttributes: [.font : font]).width
             contentView.frame = CGRect(x: xTracker, y: 0, width: width, height: frame.height)
             xTracker += width
             contentViews.append(contentView)
@@ -238,9 +239,11 @@ public final class TickerCounter: UIView {
             if index < placeholderArray.endIndex {
                 startingValue = placeholderArray[index]
             }
+            
             if number.isDecimalDigit() && startingValue.isDecimalDigit() {
-                guard let destinationNumber = Int(number) else { return }
-                guard let startingNumber = Int(startingValue) else { return }
+                guard
+                    let destinationNumber = Int(number),
+                    let startingNumber = Int(startingValue) else { return }
                 scrollingNumbersText = startingNumber.ascendingDecimalSequenceTo(destinationNumber).stringArray()
             } else {
                 scrollingNumbersText = [number]
@@ -248,7 +251,10 @@ public final class TickerCounter: UIView {
             
             for numberText in scrollingNumbersText {
                 let numberLabel = createLabel(numberText)
-                numberLabel.frame = CGRect(x: 0, y: yPosition, width: scrollLayer.frame.width, height: scrollLayer.frame.height)
+                numberLabel.frame = CGRect(x: 0,
+                                           y: yPosition,
+                                           width: scrollLayer.frame.width,
+                                           height: scrollLayer.frame.height)
                 scrollLayer.addSubview(numberLabel)
                 scrollLabels.append(numberLabel)
                 if scrollDirection == .topToBottom {
